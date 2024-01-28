@@ -12,6 +12,7 @@
 		CoursesResponse
 	} from '$lib/types/db';
 	import CourseSelector from './Teachers copy/CourseSelector.svelte';
+	import { Loader2 } from 'lucide-svelte';
 
 	type Session = SessionsResponse<{
 		tutor: TutorsResponse<{
@@ -19,6 +20,7 @@
 		}>;
 	}>;
 
+	let loading = true;
 	let fetchedSessions: Session[] = [];
 	let filteredSessions: Session[] = [];
 	let groupedSessions: { date: string; sessions: Session[] }[] = [];
@@ -31,6 +33,7 @@
 		});
 
 		fetchedSessions = response.items;
+		loading = false;
 	});
 
 	let selectedTeacherId = '';
@@ -86,52 +89,58 @@
 		<TeacherSelector bind:selectedTeacherId />
 		<CourseSelector bind:selectedCourseId />
 	</div>
-	<div class="mt-5 flex min-h-screen flex-col gap-5 overflow-hidden rounded-md border p-5">
-		{#each groupedSessions as day}
-			<div class="rounded-sm border">
-				<div
-					class="cursor-default px-5 pb-2 pt-3 text-lg font-bold transition-colors hover:bg-zinc-100"
-				>
-					{dayjs(day.date).format('dddd, MMMM D')}
-				</div>
-				<hr class="ml-8" />
-				<ul class="">
-					{#if day.sessions.length === 0}
-						<li
-							class="cursor-default px-5 py-2 pl-14 italic text-zinc-400 transition-colors hover:bg-zinc-100"
-						>
-							No available sessions under selected filters
-						</li>
-					{/if}
-
-					{#each day.sessions as session (session.id)}
-						<li
-							class="flex items-center justify-between gap-3 px-5 py-2 pl-14 transition-colors hover:bg-zinc-100"
-						>
-							<div class="flex items-center gap-3">
-								{#if session.expand}
-									{session.expand.tutor.name}
-									{#if session.expand.tutor.expand}
-										{#each session.expand.tutor.expand.classes as takenclass}
-											{#if (selectedTeacherId === '' || takenclass.teacher === selectedTeacherId) && (selectedCourseId === '' || takenclass.course === selectedCourseId)}
-												<TeacherBadge
-													name={takenclass.teacherName}
-													course={takenclass.courseName}
-												/>
-											{/if}
-										{/each}
-									{/if}
-								{/if}
-							</div>
-							<a
-								class="text-sm text-zinc-400 underline underline-offset-4"
-								href="/book/{session.id}"
-								data-sveltekit-preload-data="tap">book →</a
-							>
-						</li>
-					{/each}
-				</ul>
+	<div class="mt-5 flex min-h-[60vh] flex-col gap-5 overflow-hidden rounded-md border p-5">
+		{#if loading}
+			<div class="grid h-[30vh] w-full place-items-center">
+				<Loader2 class="h-5 animate-spin text-zinc-400" />
 			</div>
-		{/each}
+		{:else}
+			{#each groupedSessions as day}
+				<div class="rounded-sm border">
+					<div
+						class="cursor-default px-5 pb-2 pt-3 text-lg font-bold transition-colors hover:bg-zinc-100"
+					>
+						{dayjs(day.date).format('dddd, MMMM D')}
+					</div>
+					<hr class="ml-8" />
+					<ul class="">
+						{#if day.sessions.length === 0}
+							<li
+								class="cursor-default px-5 py-2 pl-14 italic text-zinc-400 transition-colors hover:bg-zinc-100"
+							>
+								No available sessions under selected filters
+							</li>
+						{/if}
+
+						{#each day.sessions as session (session.id)}
+							<li
+								class="flex items-center justify-between gap-3 px-5 py-2 pl-14 transition-colors hover:bg-zinc-100"
+							>
+								<div class="flex items-center gap-3">
+									{#if session.expand}
+										{session.expand.tutor.name}
+										{#if session.expand.tutor.expand}
+											{#each session.expand.tutor.expand.classes as takenclass}
+												{#if (selectedTeacherId === '' || takenclass.teacher === selectedTeacherId) && (selectedCourseId === '' || takenclass.course === selectedCourseId)}
+													<TeacherBadge
+														name={takenclass.teacherName}
+														course={takenclass.courseName}
+													/>
+												{/if}
+											{/each}
+										{/if}
+									{/if}
+								</div>
+								<a
+									class="text-sm text-zinc-400 underline underline-offset-4"
+									href="/book/{session.id}"
+									data-sveltekit-preload-data="tap">book →</a
+								>
+							</li>
+						{/each}
+					</ul>
+				</div>
+			{/each}
+		{/if}
 	</div>
 </div>
