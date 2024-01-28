@@ -20,10 +20,7 @@
 	<meta name="twitter:image:src" content="/assets/essaymode.png" /> -->
 </svelte:head>
 
-<svelte:body class="overflow-x-hidden" />
-
 <div class="">
-	<!-- <div class="-mx-[50vw] absolute -mt-[50vh] w-[200vw] bg-[#959CFF] h-[120vh] rotate-[-8deg]"></div> -->
 	<div class="absolute -top-[20vh] h-[80vh] w-full skew-y-[-8deg] bg-[#959CFF]"></div>
 
 	<div class="relative p-10">
