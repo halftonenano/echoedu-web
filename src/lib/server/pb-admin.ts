@@ -7,7 +7,7 @@ export async function initAdminPb() {
 	const pb = new PocketBase(PUBLIC_API_URL) as TypedPocketBase;
 
 	const response: { value: string; code?: number } = await (
-		await fetch(`${process.env.PUBLIC_API_URL}/api/collections/secrets/records/___admin-cookie`, {
+		await fetch(`${PUBLIC_API_URL}/api/collections/secrets/records/___admin-cookie`, {
 			headers: { 'X-Internal-Key': INTERNAL_KEY }
 		})
 	).json();
