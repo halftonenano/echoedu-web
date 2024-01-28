@@ -24,7 +24,8 @@ export async function load({ url, cookies }) {
 			httpOnly: false
 		})
 		.split('=');
-	cookies.set(cookie[0], cookie[1]);
+
+	cookies.set(cookie[0], cookie[1], { path: '/' });
 
 	console.log(record);
 }
