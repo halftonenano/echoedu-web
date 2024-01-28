@@ -1,14 +1,25 @@
 import { pb } from '$lib/pocketbase.js';
-import type { SessionsResponse, TutorsResponse, TeachersResponse } from '$lib/types/db';
+import type { ClassesResponse, SessionsResponse, TutorsResponse } from '$lib/types/db';
+import { error } from '@sveltejs/kit';
 
-export async function load({ params: { sessionid } }) {
-	const session = pb
+export async function load({ params: { sessionid }, url }) {
+	const session = await pb
 		.collection('sessions')
-		.getOne<SessionsResponse<{ tutor: TutorsResponse<{ teacher: TeachersResponse }> }>>(sessionid, {
-			expand: 'tutor,tutor.teacher'
+		.getOne<SessionsResponse<{ tutor: TutorsResponse<{ classes: ClassesResponse[] }> }>>(
+			sessionid,
+			{
+				expand: 'tutor,tutor.classes'
+			}
+		)
+		.catch(() => {
+			throw error(404, 'Session not found');
 		});
 
-	return { session };
+	return {
+		session,
+		selectedTeacherId: url.searchParams.get('teacher') || '',
+		selectedCourseId: url.searchParams.get('course') || ''
+	};
 }
 
 export const ssr = false;

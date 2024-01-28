@@ -41,6 +41,7 @@
 		"pocketbase": "^0.20.1",
 		"radix-icons-svelte": "^1.2.1",
 		"string-to-color": "^2.2.2",
+		"svelte-french-toast": "^1.2.0",
 		"svelte-typewriter": "^3.2.2",
 		"tailwind-merge": "^2.2.0",
 		"tailwind-variants": "^0.1.19"

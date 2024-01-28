@@ -1,22 +1,16 @@
 <script lang="ts">
-	import dayjs from 'dayjs';
-	import TeacherSelector from './Teachers/TeacherSelector.svelte';
-	import TeacherBadge from './TeacherBadge.svelte';
-	import { onMount } from 'svelte';
 	import { pb } from '$lib/pocketbase';
-	import type {
-		SessionsResponse,
-		TutorsResponse,
-		TeachersResponse,
-		ClassesResponse,
-		CoursesResponse
-	} from '$lib/types/db';
-	import CourseSelector from './Teachers copy/CourseSelector.svelte';
+	import type { ClassesResponse, SessionsResponse, TutorsResponse } from '$lib/types/db';
+	import dayjs from 'dayjs';
 	import { Loader2 } from 'lucide-svelte';
+	import { onMount } from 'svelte';
+	import TeacherBadge from './TeacherBadge.svelte';
+	import CourseSelector from './Teachers copy/CourseSelector.svelte';
+	import TeacherSelector from './Teachers/TeacherSelector.svelte';
 
 	type Session = SessionsResponse<{
 		tutor: TutorsResponse<{
-			classes: ClassesResponse<{ teacher: TeachersResponse; course: CoursesResponse }>[];
+			classes: ClassesResponse[];
 		}>;
 	}>;
 
@@ -133,7 +127,10 @@
 								</div>
 								<a
 									class="text-sm text-zinc-400 underline underline-offset-4"
-									href="/book/{session.id}"
+									href="/book/{session.id}?{new URLSearchParams({
+										...(selectedTeacherId ? { teacher: selectedTeacherId } : {}),
+										...(selectedCourseId ? { course: selectedCourseId } : {})
+									})}"
 									data-sveltekit-preload-data="tap">book →</a
 								>
 							</li>

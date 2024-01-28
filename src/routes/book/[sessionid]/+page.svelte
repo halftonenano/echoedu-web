@@ -2,79 +2,122 @@
 	import TeacherBadge from '$lib/booking/TeacherBadge.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import * as Table from '$lib/components/ui/table';
+	import { confetti } from '@neoconfetti/svelte';
 	import dayjs from 'dayjs';
+	import { Loader2 } from 'lucide-svelte';
+	import toast from 'svelte-french-toast';
 
 	export let data;
-	const { session } = data;
+	const { session, selectedTeacherId, selectedCourseId } = data;
 
-  let processing = false;
+	let processing = false;
+	let success = false;
 </script>
 
-<div class="grid place-items-center" style="grid-template: 1fr / 1fr 2fr;">
-	<div class="bg-main h-screen sticky top-0 w-full text-5xl font-thin italic text-right p-10">
-		<h1>Checkout</h1>
-	</div>
-	<div class="flex flex-col gap-5 p-10">
-		<div class="text-neutral-400 text-sm bg-neutral-100 border px-3 py-1 rounded w-fit">
-			id: {session.id}
-		</div>
-		<div>
-			<div class="italic">Tutoring session from</div>
-			<div class="flex gap-3 items-end">
-				<h2 class="font-bold text-3xl">
-					{session.expand?.tutor.name}
-				</h2>
-				<TeacherBadge name={session.expand?.tutor.expand?.teacher.name} />
-			</div>
-		</div>
-		<div>
-			Book for
-			<b>{dayjs(session.date).format('MMMM D, dddd [at] h:mm a')}</b>
-		</div>
+<div class="overflow-x-hidden min-h-screen relative">
+	<div class="absolute -top-[20vh] h-[80vh] w-full skew-y-[-8deg] bg-[#959CFF]"></div>
 
-		<div class="border rounded-md bg-white shadow-sm p-3">
-			<Table.Root class="overflow-visible">
-				<Table.Header>
-					<Table.Row>
-						<Table.Head class="w-16">Date</Table.Head>
-						<Table.Head>Tutor</Table.Head>
-						<Table.Head>Teacher</Table.Head>
-					</Table.Row>
-				</Table.Header>
-				<Table.Body>
-					<Table.Row>
-						<Table.Cell class="font-medium whitespace-nowrap"
-							>{dayjs(session.date).format('MMM D')}</Table.Cell
-						>
-						<Table.Cell>{session.expand?.tutor.name}</Table.Cell>
-						<Table.Cell>
-							<TeacherBadge name={session.expand?.tutor.expand?.teacher.name} />
-						</Table.Cell>
-						<Table.Cell>{session.tutor}</Table.Cell>
-					</Table.Row>
-				</Table.Body>
-			</Table.Root>
+	<div class="relative p-10">
+		<div class="mx-auto w-full max-w-7xl">
+			<h1 class="text-4xl font-bold text-[#383838]">Confirm Appointment</h1>
+			<Button
+				class="mb-3 mt-1 p-1 text-lg"
+				variant="link"
+				on:click={() => {
+					history.back();
+				}}>← return</Button
+			>
+
+			<div
+				class="mx-auto mt-[15vh] flex w-full max-w-3xl flex-col gap-5 rounded-lg border bg-white p-10 shadow-lg"
+			>
+				<!-- <div class="w-fit rounded border bg-neutral-100 px-3 py-1 text-sm text-neutral-400">
+					id: {session.id}
+				</div> -->
+
+				{#if success}
+					<div class="mx-auto">
+						<div use:confetti />
+					</div>
+				{/if}
+
+				<div>
+					<div class="">
+						<h2 class="text-3xl font-bold">
+							{session.expand?.tutor.name}
+						</h2>
+
+						{#if session.expand?.tutor.expand?.classes}
+							<div class="mt-2 flex flex-wrap gap-3">
+								{#each session.expand.tutor.expand.classes as takenclass}
+									{#if (selectedTeacherId === '' || takenclass.teacher === selectedTeacherId) && (selectedCourseId === '' || takenclass.course === selectedCourseId)}
+										<TeacherBadge name={takenclass.teacherName} course={takenclass.courseName} />
+									{/if}
+								{/each}
+							</div>
+							<hr class="mt-5" />
+						{/if}
+					</div>
+				</div>
+
+				<div>
+					Book for
+					<b>{dayjs(session.datetime).format('MMMM D, dddd [at] h:mm a')}</b>
+				</div>
+
+				<div class="rounded-md border bg-white shadow-sm">
+					<Table.Root class="overflow-visible">
+						<Table.Header>
+							<Table.Row>
+								<Table.Head class="w-16">Date</Table.Head>
+								<Table.Head class="w-16">Time</Table.Head>
+								<Table.Head>Location</Table.Head>
+							</Table.Row>
+						</Table.Header>
+						<Table.Body>
+							<Table.Row>
+								<Table.Cell class="whitespace-nowrap">
+									{dayjs(session.datetime).format('MMM D')}
+								</Table.Cell>
+								<Table.Cell class="whitespace-nowrap">
+									{dayjs(session.datetime).format('h:mm a')}
+								</Table.Cell>
+								<Table.Cell>
+									{session.location}
+								</Table.Cell>
+							</Table.Row>
+						</Table.Body>
+					</Table.Root>
+				</div>
+
+				<Button
+					class="flex w-full items-center justify-center gap-2"
+					on:click={async () => {
+						processing = true;
+
+						const response = await (
+							await fetch(`/api/sessions/${session.id}/book`, { method: 'POST' })
+						).json();
+
+						processing = false;
+						if (response.error) {
+							toast.error(response.error);
+						}
+						if (response.success) {
+							success = true;
+						}
+					}}
+					disabled={processing || success}
+				>
+					{#if processing}
+						Confirming...<Loader2 class="h-5 animate-spin" />
+					{:else if success}
+						Successfuly Booked!<Loader2 class="h-5 animate-spin" />
+					{:else}
+						Confirm Your Appointment
+					{/if}
+				</Button>
+			</div>
 		</div>
-
-		<!-- <div class="border rounded-md bg-white shadow-sm p-5 text-sm flex flex-col gap-2">
-			<div class="flex justify-between items-center">
-				<div class="">1 item</div>
-				$0.00
-			</div>
-			<div class="flex justify-between items-center">
-				<div class="">Sub-total</div>
-				$0.00
-			</div>
-			<div class="flex justify-between items-center">
-				<div class="">Taxes</div>
-				$0.00
-			</div>
-			<div class="flex justify-between items-center font-bold">
-				<div class="">Total due</div>
-				$0.00
-			</div>
-		</div> -->
-
-		<Button class="w-full">Confirm Your Free Appointment</Button>
 	</div>
 </div>

@@ -8,9 +8,10 @@ import type { RecordService } from 'pocketbase'
 export enum Collections {
 	Classes = "classes",
 	Courses = "courses",
+	Notifications = "notifications",
+	Phones = "phones",
 	Secrets = "secrets",
 	Sessions = "sessions",
-	SessionsView = "sessionsView",
 	Teachers = "teachers",
 	Tutors = "tutors",
 	Users = "users",
@@ -51,6 +52,47 @@ export type CoursesRecord = {
 	name: string
 }
 
+export enum NotificationsReasonOptions {
+	"reminder/5mins" = "reminder/5mins",
+	"reminder/morning" = "reminder/morning",
+	"booking/new" = "booking/new",
+	"booking/confirmed" = "booking/confirmed",
+	"booking/rejected" = "booking/rejected",
+	"booking/canceled" = "booking/canceled",
+}
+export type NotificationsRecord = {
+	datetime: IsoDateString
+	phone: RecordIdString
+	reason: NotificationsReasonOptions
+	session?: RecordIdString
+	user?: RecordIdString
+}
+
+export enum PhonesCarrierOptions {
+	"alltel" = "alltel",
+	"att" = "att",
+	"boost" = "boost",
+	"consumer" = "consumer",
+	"cricket" = "cricket",
+	"googlefi" = "googlefi",
+	"metropcs" = "metropcs",
+	"republic" = "republic",
+	"sprint" = "sprint",
+	"tmobile" = "tmobile",
+	"ting" = "ting",
+	"uscellular" = "uscellular",
+	"verizon" = "verizon",
+	"virgin" = "virgin",
+	"xfinity" = "xfinity",
+	"mint" = "mint",
+}
+export type PhonesRecord = {
+	carrier: PhonesCarrierOptions
+	confirmed?: boolean
+	number: number
+	user: RecordIdString
+}
+
 export type SecretsRecord = {
 	value: string
 }
@@ -58,13 +100,9 @@ export type SecretsRecord = {
 export type SessionsRecord = {
 	confirmed?: boolean
 	datetime?: IsoDateString
+	location?: string
 	tutee?: RecordIdString
 	tutor: RecordIdString
-}
-
-export type SessionsViewRecord = {
-	confirmed?: boolean
-	datetime?: IsoDateString
 }
 
 export type TeachersRecord = {
@@ -87,9 +125,10 @@ export type UsersRecord = {
 // Response types include system fields and match responses from the PocketBase API
 export type ClassesResponse<Texpand = unknown> = Required<ClassesRecord> & BaseSystemFields<Texpand>
 export type CoursesResponse<Texpand = unknown> = Required<CoursesRecord> & BaseSystemFields<Texpand>
+export type NotificationsResponse<Texpand = unknown> = Required<NotificationsRecord> & BaseSystemFields<Texpand>
+export type PhonesResponse<Texpand = unknown> = Required<PhonesRecord> & BaseSystemFields<Texpand>
 export type SecretsResponse<Texpand = unknown> = Required<SecretsRecord> & BaseSystemFields<Texpand>
 export type SessionsResponse<Texpand = unknown> = Required<SessionsRecord> & BaseSystemFields<Texpand>
-export type SessionsViewResponse<Texpand = unknown> = Required<SessionsViewRecord> & BaseSystemFields<Texpand>
 export type TeachersResponse<Texpand = unknown> = Required<TeachersRecord> & BaseSystemFields<Texpand>
 export type TutorsResponse<Texpand = unknown> = Required<TutorsRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
@@ -99,9 +138,10 @@ export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSyste
 export type CollectionRecords = {
 	classes: ClassesRecord
 	courses: CoursesRecord
+	notifications: NotificationsRecord
+	phones: PhonesRecord
 	secrets: SecretsRecord
 	sessions: SessionsRecord
-	sessionsView: SessionsViewRecord
 	teachers: TeachersRecord
 	tutors: TutorsRecord
 	users: UsersRecord
@@ -110,9 +150,10 @@ export type CollectionRecords = {
 export type CollectionResponses = {
 	classes: ClassesResponse
 	courses: CoursesResponse
+	notifications: NotificationsResponse
+	phones: PhonesResponse
 	secrets: SecretsResponse
 	sessions: SessionsResponse
-	sessionsView: SessionsViewResponse
 	teachers: TeachersResponse
 	tutors: TutorsResponse
 	users: UsersResponse
@@ -124,9 +165,10 @@ export type CollectionResponses = {
 export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'classes'): RecordService<ClassesResponse>
 	collection(idOrName: 'courses'): RecordService<CoursesResponse>
+	collection(idOrName: 'notifications'): RecordService<NotificationsResponse>
+	collection(idOrName: 'phones'): RecordService<PhonesResponse>
 	collection(idOrName: 'secrets'): RecordService<SecretsResponse>
 	collection(idOrName: 'sessions'): RecordService<SessionsResponse>
-	collection(idOrName: 'sessionsView'): RecordService<SessionsViewResponse>
 	collection(idOrName: 'teachers'): RecordService<TeachersResponse>
 	collection(idOrName: 'tutors'): RecordService<TutorsResponse>
 	collection(idOrName: 'users'): RecordService<UsersResponse>
