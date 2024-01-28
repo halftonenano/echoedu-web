@@ -13,9 +13,8 @@
 				const googleprovider = methods.authProviders.find((method) => method.name === 'google');
 				if (!googleprovider) throw new Error();
 
-				localStorage.setItem('pocketbase_oauth2_provider', JSON.stringify(googleprovider));
-				document.cookie = `pocketbase_oauth2_provider=${JSON.stringify(googleprovider)}`;
-				document.cookie = `location.origin=${location.origin}`;
+				document.cookie = `pocketbase_oauth2_provider=${JSON.stringify(googleprovider)}; path=/`;
+				document.cookie = `location.origin=${location.origin}; path=/`;
 
 				localStorage.setItem(
 					'auth_after',
@@ -40,7 +39,7 @@
 			<div class="w-64">
 				{#if !googleAuthProvider}
 					<div class="grid h-14 place-items-center bg-zinc-100 p-3">
-						<Loader2 class="h-5 animate-spin border-zinc-400" />
+						<Loader2 class="h-5 animate-spin text-zinc-400" />
 					</div>
 				{:else}
 					<a
