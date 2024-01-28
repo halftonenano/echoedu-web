@@ -1,0 +1,19 @@
+<script lang="ts">
+	import { Loader2 } from 'lucide-svelte';
+</script>
+
+<div class="relative grid min-h-screen place-items-center">
+	<div class="absolute h-[80vh] w-full skew-y-[-8deg] bg-[#959CFF]"></div>
+	<div class="relative m-6 rounded-lg border border-zinc-300 bg-white">
+		<div class="overflow-hidden rounded-lg">
+			<div class="border-b px-6 pb-3 pt-4">
+				<h2 class="text-xl font-extrabold">EchoEDU</h2>
+			</div>
+			<div class="w-64">
+				<div class="grid h-14 place-items-center bg-zinc-100 p-3">
+					<Loader2 class="h-5 animate-spin border-zinc-400" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

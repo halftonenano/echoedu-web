@@ -9,5 +9,7 @@ export const user = writable(pb.authStore.model);
 
 pb.authStore.onChange((auth) => {
 	user.set(pb.authStore.model);
-	document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
+	try {
+		document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
+	} catch {}
 });
