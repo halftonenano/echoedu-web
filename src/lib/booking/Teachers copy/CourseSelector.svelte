@@ -1,42 +1,30 @@
 <script lang="ts">
-	import { Check, ChevronsUpDown } from 'lucide-svelte';
+	import { Check, ChevronsUpDown, X } from 'lucide-svelte';
 	import * as Command from '$lib/components/ui/command';
 	import * as Popover from '$lib/components/ui/popover';
 	import { Button } from '$lib/components/ui/button';
 	import { cn } from '$lib/utils';
 	import { tick } from 'svelte';
+	import { courses } from './cousesStore';
 
-	const frameworks = [
-		{
-			value: 'sveltekit',
-			label: 'SvelteKit'
-		},
-		{
-			value: 'next.js',
-			label: 'Next.js'
-		},
-		{
-			value: 'nuxt.js',
-			label: 'Nuxt.js'
-		},
-		{
-			value: 'remix',
-			label: 'Remix'
-		},
-		{
-			value: 'astro',
-			label: 'Astro'
-		}
-	];
+	export let selectedCourseId = '';
+
+	$: options = $courses.map((course) => ({
+		value: course.name,
+		label: course.name,
+		record: course
+	}));
 
 	let open = false;
 	let value = '';
 
-	$: selectedValue = frameworks.find((f) => f.value === value)?.label ?? 'Select Teacher';
+	let selectedValue = 'Select Course';
+	$: {
+		const selected = options.find((t) => t.value === value);
+		selectedValue = selected?.label || 'Select Course';
+		selectedCourseId = selected?.record.id || '';
+	}
 
-	// We want to refocus the trigger button when the user selects
-	// an item from the list so users can continue navigating the
-	// rest of the form with the keyboard.
 	function closeAndFocusTrigger(triggerId: string) {
 		open = false;
 		tick().then(() => {
@@ -58,12 +46,23 @@
 			<ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
 		</Button>
 	</Popover.Trigger>
-	<Popover.Content class="w-[20rem] p-0 mt-2">
+	<Popover.Content class="mt-2 w-[20rem] p-0">
 		<Command.Root>
-			<Command.Input placeholder="Search teachers" />
-			<Command.Empty>Teacher not found.</Command.Empty>
+			<Command.Input placeholder="Search courses" />
+			<Command.Empty>Course not found.</Command.Empty>
 			<Command.Group>
-				{#each frameworks as framework}
+				<Command.Item
+					value=""
+					onSelect={(currentValue) => {
+						value = currentValue;
+						closeAndFocusTrigger(ids.trigger);
+					}}
+				>
+					<X class={cn('mr-2 h-4 w-4')} />
+					Clear
+				</Command.Item>
+				<Command.Separator class="my-1" />
+				{#each options as framework}
 					<Command.Item
 						value={framework.value}
 						onSelect={(currentValue) => {
