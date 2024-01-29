@@ -126,7 +126,7 @@
 									{/if}
 								</div>
 								<a
-									class="text-sm text-zinc-400 underline underline-offset-4"
+									class="text-sm bg-[#959CFF] hover:bg-[#7f7fec] transition-color duration-500 font-bold text-white px-4 py-1 rounded-sm  underline-offset-4"
 									href="/book/{session.id}?{new URLSearchParams({
 										...(selectedTeacherId ? { teacher: selectedTeacherId } : {}),
 										...(selectedCourseId ? { course: selectedCourseId } : {})
