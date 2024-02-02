@@ -1,0 +1,579 @@
+[
+  {
+      "id": "j25vurp09y8tn3p",
+      "name": "teachers",
+      "type": "base",
+      "system": false,
+      "schema": [
+          {
+              "system": false,
+              "id": "hrjgziwh",
+              "name": "display",
+              "type": "text",
+              "required": true,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "min": null,
+                  "max": null,
+                  "pattern": ""
+              }
+          },
+          {
+              "system": false,
+              "id": "ojftaiz0",
+              "name": "name",
+              "type": "text",
+              "required": true,
+              "presentable": true,
+              "unique": false,
+              "options": {
+                  "min": null,
+                  "max": null,
+                  "pattern": ""
+              }
+          }
+      ],
+      "indexes": [],
+      "listRule": "",
+      "viewRule": "",
+      "createRule": null,
+      "updateRule": null,
+      "deleteRule": null,
+      "options": {}
+  },
+  {
+      "id": "l22o5nwnrqrh0q5",
+      "name": "tutors",
+      "type": "base",
+      "system": false,
+      "schema": [
+          {
+              "system": false,
+              "id": "9ritpcux",
+              "name": "user",
+              "type": "relation",
+              "required": true,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "collectionId": "_pb_users_auth_",
+                  "cascadeDelete": false,
+                  "minSelect": null,
+                  "maxSelect": 1,
+                  "displayFields": null
+              }
+          },
+          {
+              "system": false,
+              "id": "2bwhqlfk",
+              "name": "name",
+              "type": "text",
+              "required": true,
+              "presentable": true,
+              "unique": false,
+              "options": {
+                  "min": null,
+                  "max": null,
+                  "pattern": ""
+              }
+          },
+          {
+              "system": false,
+              "id": "ut6uwbdw",
+              "name": "grade",
+              "type": "number",
+              "required": true,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "min": null,
+                  "max": null,
+                  "noDecimal": true
+              }
+          },
+          {
+              "system": false,
+              "id": "yjdpy885",
+              "name": "classes",
+              "type": "relation",
+              "required": false,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "collectionId": "231kj9x74epupa4",
+                  "cascadeDelete": false,
+                  "minSelect": null,
+                  "maxSelect": null,
+                  "displayFields": null
+              }
+          }
+      ],
+      "indexes": [],
+      "listRule": "",
+      "viewRule": "",
+      "createRule": null,
+      "updateRule": null,
+      "deleteRule": null,
+      "options": {}
+  },
+  {
+      "id": "ukuvrpul99jpb6y",
+      "name": "secrets",
+      "type": "base",
+      "system": false,
+      "schema": [
+          {
+              "system": false,
+              "id": "f8hjqm0d",
+              "name": "value",
+              "type": "text",
+              "required": true,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "min": null,
+                  "max": null,
+                  "pattern": ""
+              }
+          }
+      ],
+      "indexes": [],
+      "listRule": null,
+      "viewRule": "@request.headers.x_internal_key ?= @collection.secrets.value && @collection.secrets.id ?= \"_x-internal-key\"",
+      "createRule": null,
+      "updateRule": "@request.headers.x_internal_key ?= @collection.secrets.value && @collection.secrets.id ?= \"_x-internal-key\"",
+      "deleteRule": null,
+      "options": {}
+  },
+  {
+      "id": "9tjuzplsabcl3w9",
+      "name": "courses",
+      "type": "base",
+      "system": false,
+      "schema": [
+          {
+              "system": false,
+              "id": "ircdbrka",
+              "name": "name",
+              "type": "text",
+              "required": true,
+              "presentable": true,
+              "unique": false,
+              "options": {
+                  "min": null,
+                  "max": null,
+                  "pattern": ""
+              }
+          }
+      ],
+      "indexes": [],
+      "listRule": "",
+      "viewRule": "",
+      "createRule": null,
+      "updateRule": null,
+      "deleteRule": null,
+      "options": {}
+  },
+  {
+      "id": "231kj9x74epupa4",
+      "name": "classes",
+      "type": "base",
+      "system": false,
+      "schema": [
+          {
+              "system": false,
+              "id": "jnnsdinp",
+              "name": "teacher",
+              "type": "relation",
+              "required": true,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "collectionId": "j25vurp09y8tn3p",
+                  "cascadeDelete": false,
+                  "minSelect": null,
+                  "maxSelect": 1,
+                  "displayFields": null
+              }
+          },
+          {
+              "system": false,
+              "id": "lgta7val",
+              "name": "course",
+              "type": "relation",
+              "required": true,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "collectionId": "9tjuzplsabcl3w9",
+                  "cascadeDelete": false,
+                  "minSelect": null,
+                  "maxSelect": 1,
+                  "displayFields": null
+              }
+          },
+          {
+              "system": false,
+              "id": "iaxhjsyb",
+              "name": "teacherName",
+              "type": "text",
+              "required": false,
+              "presentable": true,
+              "unique": false,
+              "options": {
+                  "min": null,
+                  "max": null,
+                  "pattern": ""
+              }
+          },
+          {
+              "system": false,
+              "id": "bolbflad",
+              "name": "courseName",
+              "type": "text",
+              "required": false,
+              "presentable": true,
+              "unique": false,
+              "options": {
+                  "min": null,
+                  "max": null,
+                  "pattern": ""
+              }
+          }
+      ],
+      "indexes": [],
+      "listRule": "",
+      "viewRule": "",
+      "createRule": null,
+      "updateRule": null,
+      "deleteRule": null,
+      "options": {}
+  },
+  {
+      "id": "_pb_users_auth_",
+      "name": "users",
+      "type": "auth",
+      "system": false,
+      "schema": [
+          {
+              "system": false,
+              "id": "users_name",
+              "name": "name",
+              "type": "text",
+              "required": false,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "min": null,
+                  "max": null,
+                  "pattern": ""
+              }
+          },
+          {
+              "system": false,
+              "id": "users_avatar",
+              "name": "avatar",
+              "type": "file",
+              "required": false,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "mimeTypes": [
+                      "image/jpeg",
+                      "image/png",
+                      "image/svg+xml",
+                      "image/gif",
+                      "image/webp"
+                  ],
+                  "thumbs": null,
+                  "maxSelect": 1,
+                  "maxSize": 5242880,
+                  "protected": false
+              }
+          }
+      ],
+      "indexes": [],
+      "listRule": "id = @request.auth.id",
+      "viewRule": "id = @request.auth.id",
+      "createRule": "name = \"\"",
+      "updateRule": "id = @request.auth.id && @request.data.name:isset = false",
+      "deleteRule": "id = @request.auth.id",
+      "options": {
+          "allowEmailAuth": false,
+          "allowOAuth2Auth": true,
+          "allowUsernameAuth": false,
+          "exceptEmailDomains": null,
+          "manageRule": null,
+          "minPasswordLength": 8,
+          "onlyEmailDomains": null,
+          "onlyVerified": false,
+          "requireEmail": true
+      }
+  },
+  {
+      "id": "fbs9sde95i3j1d1",
+      "name": "phones",
+      "type": "base",
+      "system": false,
+      "schema": [
+          {
+              "system": false,
+              "id": "yebzwzmh",
+              "name": "number",
+              "type": "number",
+              "required": true,
+              "presentable": true,
+              "unique": false,
+              "options": {
+                  "min": null,
+                  "max": null,
+                  "noDecimal": true
+              }
+          },
+          {
+              "system": false,
+              "id": "8upcqpmx",
+              "name": "confirmed",
+              "type": "bool",
+              "required": false,
+              "presentable": false,
+              "unique": false,
+              "options": {}
+          },
+          {
+              "system": false,
+              "id": "qnayo1r9",
+              "name": "user",
+              "type": "relation",
+              "required": true,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "collectionId": "_pb_users_auth_",
+                  "cascadeDelete": false,
+                  "minSelect": null,
+                  "maxSelect": 1,
+                  "displayFields": null
+              }
+          },
+          {
+              "system": false,
+              "id": "yb5zmffj",
+              "name": "carrier",
+              "type": "select",
+              "required": true,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "maxSelect": 1,
+                  "values": [
+                      "alltel",
+                      "att",
+                      "boost",
+                      "consumer",
+                      "cricket",
+                      "googlefi",
+                      "metropcs",
+                      "republic",
+                      "sprint",
+                      "tmobile",
+                      "ting",
+                      "uscellular",
+                      "verizon",
+                      "virgin",
+                      "xfinity",
+                      "mint"
+                  ]
+              }
+          }
+      ],
+      "indexes": [],
+      "listRule": null,
+      "viewRule": null,
+      "createRule": null,
+      "updateRule": null,
+      "deleteRule": null,
+      "options": {}
+  },
+  {
+      "id": "ltybgrxurezaapj",
+      "name": "notifications",
+      "type": "base",
+      "system": false,
+      "schema": [
+          {
+              "system": false,
+              "id": "mymrbale",
+              "name": "user",
+              "type": "relation",
+              "required": false,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "collectionId": "_pb_users_auth_",
+                  "cascadeDelete": false,
+                  "minSelect": null,
+                  "maxSelect": 1,
+                  "displayFields": null
+              }
+          },
+          {
+              "system": false,
+              "id": "s6wupmem",
+              "name": "session",
+              "type": "relation",
+              "required": false,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "collectionId": "15lb50z078a4dnu",
+                  "cascadeDelete": false,
+                  "minSelect": null,
+                  "maxSelect": 1,
+                  "displayFields": null
+              }
+          },
+          {
+              "system": false,
+              "id": "exwacwao",
+              "name": "datetime",
+              "type": "date",
+              "required": true,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "min": "",
+                  "max": ""
+              }
+          },
+          {
+              "system": false,
+              "id": "9tpi39vx",
+              "name": "reason",
+              "type": "select",
+              "required": false,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "maxSelect": 1,
+                  "values": [
+                      "reminder/5mins",
+                      "reminder/morning",
+                      "booking/new",
+                      "booking/confirmed",
+                      "booking/rejected",
+                      "booking/canceled"
+                  ]
+              }
+          },
+          {
+              "system": false,
+              "id": "g7nfglmb",
+              "name": "phone",
+              "type": "relation",
+              "required": true,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "collectionId": "fbs9sde95i3j1d1",
+                  "cascadeDelete": false,
+                  "minSelect": null,
+                  "maxSelect": 1,
+                  "displayFields": null
+              }
+          }
+      ],
+      "indexes": [],
+      "listRule": null,
+      "viewRule": null,
+      "createRule": null,
+      "updateRule": null,
+      "deleteRule": null,
+      "options": {}
+  },
+  {
+      "id": "15lb50z078a4dnu",
+      "name": "sessions",
+      "type": "base",
+      "system": false,
+      "schema": [
+          {
+              "system": false,
+              "id": "emv2ko4r",
+              "name": "tutor",
+              "type": "relation",
+              "required": true,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "collectionId": "l22o5nwnrqrh0q5",
+                  "cascadeDelete": false,
+                  "minSelect": null,
+                  "maxSelect": 1,
+                  "displayFields": null
+              }
+          },
+          {
+              "system": false,
+              "id": "5sxoocnr",
+              "name": "datetime",
+              "type": "date",
+              "required": false,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "min": "",
+                  "max": ""
+              }
+          },
+          {
+              "system": false,
+              "id": "as7pcbfo",
+              "name": "tutee",
+              "type": "relation",
+              "required": false,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "collectionId": "_pb_users_auth_",
+                  "cascadeDelete": false,
+                  "minSelect": null,
+                  "maxSelect": 1,
+                  "displayFields": null
+              }
+          },
+          {
+              "system": false,
+              "id": "pbv0ofiy",
+              "name": "confirmed",
+              "type": "bool",
+              "required": false,
+              "presentable": false,
+              "unique": false,
+              "options": {}
+          },
+          {
+              "system": false,
+              "id": "dxabyehu",
+              "name": "location",
+              "type": "text",
+              "required": false,
+              "presentable": false,
+              "unique": false,
+              "options": {
+                  "min": null,
+                  "max": null,
+                  "pattern": ""
+              }
+          }
+      ],
+      "indexes": [],
+      "listRule": "datetime > @now && (tutee = \"\" || tutee = @request.auth.id)",
+      "viewRule": "datetime > @now && (tutee = \"\" || tutee = @request.auth.id)",
+      "createRule": null,
+      "updateRule": null,
+      "deleteRule": null,
+      "options": {}
+  }
+]
