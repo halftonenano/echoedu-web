@@ -1,5 +1,5 @@
 <script lang="ts">
-	import TeacherBadge from '$lib/booking/TeacherBadge.svelte';
+	import TeacherBadge from '$lib/booking/teachers/TeacherBadge.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import * as Table from '$lib/components/ui/table';
 	import { confetti } from '@neoconfetti/svelte';

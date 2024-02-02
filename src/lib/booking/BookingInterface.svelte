@@ -4,9 +4,9 @@
 	import dayjs from 'dayjs';
 	import { Loader2 } from 'lucide-svelte';
 	import { onMount } from 'svelte';
-	import TeacherBadge from './TeacherBadge.svelte';
-	import CourseSelector from './Teachers copy/CourseSelector.svelte';
-	import TeacherSelector from './Teachers/TeacherSelector.svelte';
+	import TeacherBadge from './teachers/TeacherBadge.svelte';
+	import CourseSelector from './courses/CourseSelector.svelte';
+	import TeacherSelector from './teachers/TeacherSelector.svelte';
 
 	type Session = SessionsResponse<{
 		tutor: TutorsResponse<{
