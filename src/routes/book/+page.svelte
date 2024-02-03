@@ -1,9 +1,10 @@
 <script>
 	import BookingInterface from '$lib/booking/BookingInterface.svelte';
+	import BackgroundSlant from '$lib/components/BackgroundSlant.svelte';
 </script>
 
 <div class="">
-	<div class="absolute -top-[20vh] h-[90vh] w-full skew-y-[-8deg] bg-[#959CFF]"></div>
+	<BackgroundSlant />
 
 	<div class="relative p-10">
 		<div class="mx-auto mt-[20vh] w-full max-w-7xl text-[#383838]">
