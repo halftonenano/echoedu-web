@@ -1,26 +1,21 @@
 <script lang="ts">
 	import { pb } from '$lib/pocketbase';
-	import type { ClassesResponse, SessionsResponse, TutorsResponse } from '$lib/types/db';
+	import type { ExpandedSession } from '$lib/types/types';
 	import dayjs from 'dayjs';
 	import { Loader2 } from 'lucide-svelte';
 	import { onMount } from 'svelte';
-	import TeacherBadge from './teachers/TeacherBadge.svelte';
+	import CurrentSession from './sessions/CurrentSession.svelte';
 	import CourseSelector from './courses/CourseSelector.svelte';
+	import TeacherBadge from './teachers/TeacherBadge.svelte';
 	import TeacherSelector from './teachers/TeacherSelector.svelte';
 
-	type Session = SessionsResponse<{
-		tutor: TutorsResponse<{
-			classes: ClassesResponse[];
-		}>;
-	}>;
-
 	let loading = true;
-	let fetchedSessions: Session[] = [];
-	let filteredSessions: Session[] = [];
-	let groupedSessions: { date: string; sessions: Session[] }[] = [];
+	let fetchedSessions: ExpandedSession[] = [];
+	let filteredSessions: ExpandedSession[] = [];
+	let groupedSessions: { date: string; sessions: ExpandedSession[] }[] = [];
 
 	onMount(async () => {
-		const response = await pb.collection('sessions').getList<Session>(0, 50, {
+		const response = await pb.collection('sessions').getList<ExpandedSession>(0, 50, {
 			sort: 'datetime',
 			expand: 'tutor,tutor.classes',
 			filter: ``
@@ -78,6 +73,8 @@
 	}
 </script>
 
+<CurrentSession />
+
 <div class="rounded-lg border bg-white p-5 shadow-lg">
 	<div class="flex gap-5">
 		<TeacherSelector bind:selectedTeacherId />
@@ -126,7 +123,7 @@
 									{/if}
 								</div>
 								<a
-									class="text-sm bg-[#959CFF] hover:bg-[#7f7fec] transition-color duration-500 font-bold text-white px-4 py-1 rounded-sm  underline-offset-4"
+									class="transition-color rounded-sm bg-[#959CFF] px-4 py-1 text-sm font-bold text-white underline-offset-4 duration-500 hover:bg-[#7f7fec]"
 									href="/book/{session.id}?{new URLSearchParams({
 										...(selectedTeacherId ? { teacher: selectedTeacherId } : {}),
 										...(selectedCourseId ? { course: selectedCourseId } : {})

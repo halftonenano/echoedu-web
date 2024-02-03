@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { refreshCurrentSession } from '$lib/booking/sessions/currentSessionStore.js';
 	import TeacherBadge from '$lib/booking/teachers/TeacherBadge.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import * as Table from '$lib/components/ui/table';
@@ -105,6 +106,7 @@
 						}
 						if (response.success) {
 							success = true;
+							await refreshCurrentSession();
 						}
 					}}
 					disabled={processing || success}

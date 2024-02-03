@@ -1,17 +1,13 @@
 import { pb } from '$lib/pocketbase.js';
 import { initAdminPb } from '$lib/server/pb-admin.js';
-import type {
-	NotificationsReasonOptions,
-	NotificationsRecord,
-	SessionsResponse,
-	TutorsResponse
-} from '$lib/types/db.js';
+import type { NotificationsReasonOptions, NotificationsRecord } from '$lib/types/db.js';
+import type { ExpandedSession } from '$lib/types/types.js';
 import { json } from '@sveltejs/kit';
 
 export async function POST({ params: { sessionid }, request }) {
 	pb.authStore.loadFromCookie(request.headers.get('Cookie') || '');
 	const admin = await initAdminPb();
-	let session: SessionsResponse<{ tutor: TutorsResponse }> | null = null;
+	let session: ExpandedSession | null = null;
 	try {
 		// Check if they can book the session
 		session = await pb.collection('sessions').getOne(sessionid, { expand: 'tutor' });
@@ -22,7 +18,7 @@ export async function POST({ params: { sessionid }, request }) {
 		// Check if user already has booked a session
 		await admin
 			.collection('sessions')
-			.getFirstListItem(`datetime>@now && tutee="${pb.authStore.model?.id}"`);
+			.getFirstListItem(`datetime > @now && tutee = "${pb.authStore.model?.id}"`);
 		return json({ error: 'You already have a session booked' });
 	} catch {
 		await admin.collection('sessions').update(sessionid, { tutee: pb.authStore.model?.id });
@@ -44,6 +40,6 @@ export async function POST({ params: { sessionid }, request }) {
 			console.log(e);
 		}
 
-		return json({ success: 'session booked' });
+		return json({ success: 'session booked' }, { status: 201 });
 	}
 }

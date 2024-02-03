@@ -1,7 +1,7 @@
-export type TutorSession = {
-	date: string;
-	tutor: Tutor;
-	timeframe: 'tutorial' | 'afterschool';
-};
+import type { ClassesResponse, SessionsResponse, TutorsResponse } from './db';
 
-export type Tutor = { id: string; name: string; teacher: string; grade: number };
+export type ExpandedSession = SessionsResponse<{
+	tutor: TutorsResponse<{
+		classes: ClassesResponse[];
+	}>;
+}>;
