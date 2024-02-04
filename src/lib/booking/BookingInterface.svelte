@@ -4,10 +4,10 @@
 	import dayjs from 'dayjs';
 	import { Loader2 } from 'lucide-svelte';
 	import { onMount } from 'svelte';
-	import CurrentSession from './sessions/CurrentSession.svelte';
 	import CourseSelector from './courses/CourseSelector.svelte';
+	import CurrentSession from './sessions/CurrentSession.svelte';
 	import TeacherBadge from './teachers/TeacherBadge.svelte';
-	import TeacherSelector from '$lib/booking/teachers/TeacherSelector.svelte';
+	import TeacherSelector from './teachers/TeacherSelector.svelte';
 
 	let loading = true;
 	let fetchedSessions: ExpandedSession[] = [];
