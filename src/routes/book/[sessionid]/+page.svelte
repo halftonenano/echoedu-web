@@ -1,8 +1,10 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { refreshCurrentSession } from '$lib/booking/sessions/currentSessionStore.js';
 	import TeacherBadge from '$lib/booking/teachers/TeacherBadge.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import * as Table from '$lib/components/ui/table';
+	import { sleep } from '$lib/utils.js';
 	import { confetti } from '@neoconfetti/svelte';
 	import dayjs from 'dayjs';
 	import { Loader2 } from 'lucide-svelte';
@@ -15,7 +17,7 @@
 	let success = false;
 </script>
 
-<div class="overflow-x-hidden min-h-screen relative">
+<div class="relative min-h-screen overflow-x-hidden">
 	<div class="absolute -top-[20vh] h-[80vh] w-full skew-y-[-8deg] bg-[#959CFF]"></div>
 
 	<div class="relative p-10">
@@ -107,6 +109,8 @@
 						if (response.success) {
 							success = true;
 							await refreshCurrentSession();
+							await sleep(3000);
+							await goto('/book');
 						}
 					}}
 					disabled={processing || success}
