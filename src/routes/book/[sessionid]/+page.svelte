@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { refreshCurrentSession } from '$lib/booking/sessions/currentSessionStore.js';
-	import TeacherBadge from '$lib/booking/teachers/TeacherBadge.svelte';
+	import { refreshCurrentSession } from '$lib/components/booking/sessions/currentSessionStore.js';
+	import TeacherBadge from '$lib/components/booking/teachers/TeacherBadge.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import * as Table from '$lib/components/ui/table';
 	import { sleep } from '$lib/utils.js';

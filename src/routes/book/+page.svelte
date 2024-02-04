@@ -1,5 +1,5 @@
 <script>
-	import BookingInterface from '$lib/booking/BookingInterface.svelte';
+	import BookingInterface from '$lib/components/booking/BookingInterface.svelte';
 	import PageFormat from '$lib/components/PageFormat.svelte';
 </script>
 

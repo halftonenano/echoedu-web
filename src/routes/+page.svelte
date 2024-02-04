@@ -1,7 +1,7 @@
 <script>
 	import Typewriter from 'svelte-typewriter';
 	import { PencilLine } from 'lucide-svelte';
-	import BookingInterface from '$lib/booking/BookingInterface.svelte';
+	import BookingInterface from '$lib/components/booking/BookingInterface.svelte';
 </script>
 
 <svelte:head>
