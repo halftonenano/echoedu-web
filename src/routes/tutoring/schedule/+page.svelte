@@ -59,9 +59,8 @@
 
   // example create data
   const data = {
-    "tutor": "ef3oknc889lxz34",
+    "tutor": "wgshmz1toryxpbn",
     "datetime": "2025-01-01 10:00:00.123Z",
-    "tutee": "",
     "location": "Library"
   };
 
@@ -69,13 +68,6 @@
     const record = await pb.collection('sessions').create(data);
     console.log(record);
   }
-
-  // Run createRecord when the component is mounted
-  onMount(() => {
-    createRecord();
-  });
-
-  
 
 </script>
 
