@@ -45,12 +45,12 @@ export async function load({ url, cookies }) {
 			cookie: new Promise<string>(async (resolve, reject) => {
 				if (authData.meta) {
 					const admin = await initAdminPb();
-					admin.collection('users').update(authData.record.id, {
+					await admin.collection('users').update(authData.record.id, {
 						name: authData.meta.name,
 						avatarUrl: authData.meta.avatarUrl
 					});
 
-					pb.collection('users').authRefresh();
+					await pb.collection('users').authRefresh();
 				}
 
 				resolve(
