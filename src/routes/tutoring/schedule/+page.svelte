@@ -5,6 +5,9 @@
   import ClassSelector from "$lib/tutoring/ClassSelector.svelte";
   import Input from "$lib/components/ui/input/input.svelte";
   import { tick } from "svelte";
+  import PocketBase from 'pocketbase';
+
+
 
   const start = today(getLocalTimeZone());
   const end = start.add({ days: 7 });
@@ -14,6 +17,8 @@
   // };
 
   let value = today(getLocalTimeZone());
+
+    
 
   const times = [
     {
@@ -47,6 +52,30 @@
   let selectedTime = '';
   let selectedLocation = '';
   let selectedClass = '';
+
+  import { onMount } from "svelte";
+
+  const pb = new PocketBase('https://api.echo-edu.org');
+
+  // example create data
+  const data = {
+    "tutor": "ef3oknc889lxz34",
+    "datetime": "2025-01-01 10:00:00.123Z",
+    "tutee": "",
+    "location": "Library"
+  };
+
+  async function createRecord() {
+    const record = await pb.collection('sessions').create(data);
+    console.log(record);
+  }
+
+  // Run createRecord when the component is mounted
+  onMount(() => {
+    createRecord();
+  });
+
+  
 
 </script>
 
@@ -103,7 +132,7 @@
             </div>
             <button
               on:click={() => {
-                console.log('clicked!');
+                createRecord();
               }}
               class="flex justify-evenly transition-color place-items-center rounded-md bg-[#959CFF] text-center text-4xl  text-white duration-500 hover:bg-[#7f7fec] font-bold p-4 px-6"
             >
