@@ -7,27 +7,25 @@
 	export let data;
 
 	onMount(() => {
+		console.log(data);
+
 		if (data.error) {
 			alert(data.error);
 			goto('/signin');
 			return;
 		}
-		pb.authStore.loadFromCookie(document.cookie);
+
+		if (data.cookie) {
+			pb.authStore.loadFromCookie(data.cookie);
+		} else {
+			pb.authStore.loadFromCookie(document.cookie);
+		}
 
 		if (data.isNew) {
 			goto('/account/setup');
 		} else {
 			goto('/book');
 		}
-
-		// if (!!data.cookie) {
-		// 	(async () => {
-		// 		pb.authStore.loadFromCookie(await data.cookie);
-
-		// 	})();
-		// } else {
-		// 	goto('/book');
-		// }
 	});
 </script>
 

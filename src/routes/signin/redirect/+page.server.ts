@@ -22,16 +22,6 @@ export async function load({ url, cookies }) {
 			);
 
 		if (!authData.meta?.isNew) {
-			cookies.set(
-				'pb_auth',
-				pb.authStore
-					.exportToCookie({
-						httpOnly: false
-					})
-					.split('pb_auth=')[1]
-					.split(';')[0],
-				{ path: '/', httpOnly: false }
-			);
 			return {
 				isNew: false,
 				cookie: pb.authStore.exportToCookie({
@@ -49,17 +39,6 @@ export async function load({ url, cookies }) {
 
 			await pb.collection('users').authRefresh();
 		}
-
-		cookies.set(
-			'pb_auth',
-			pb.authStore
-				.exportToCookie({
-					httpOnly: false
-				})
-				.split('pb_auth=')[1]
-				.split(';')[0],
-			{ path: '/', httpOnly: false }
-		);
 
 		return {
 			isNew: (authData.meta?.isNew as boolean) || false,
