@@ -1,23 +1,25 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+	import { pb } from '$lib/pocketbase';
 </script>
 
-
-<div class="w-[26rem] border-2 bg-transparent rounded-md grid-place-items-center px-4 py-2 text-white text-xl text-center">
-  Temporary Navbar
-  <div class="flex">
-    <button on:click={()=>{goto('/book'); console.log('clicked da home button')}} class="border-r-2 pr-4 mr-4">
-      EchoEDU
-    </button> 
-    <button on:click={()=>{goto('/tutoring')}} class="border-r-2 pr-4 mr-4">
-      Tutoring
-    </button> 
-    <button on:click={()=>{goto('/tutoring/schedule')}}>
-      Scheduling
-    </button> 
-  </div>
+<div class="nav-selector absolute right-5 top-5 z-[99]">
+	<a href="/book" data-state={$page.route.id?.startsWith('/book') && 'active'}>Book</a>
+	<a href="/tutoring" data-state={$page.route.id === '/tutoring' && 'active'}>Tutoring</a>
+	<a href="/tutoring/schedule" data-state={$page.route.id === '/tutoring/schedule' && 'active'}>Schedule</a>
+	<a href="/account">
+		Account
+		{#if pb.authStore.model}
+			: {pb.authStore.model?.name}
+		{/if}
+	</a>
 </div>
 
 <style>
-
+	.nav-selector {
+		@apply inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground;
+	}
+	.nav-selector > a {
+		@apply inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm;
+	}
 </style>
