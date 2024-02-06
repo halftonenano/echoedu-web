@@ -21,6 +21,7 @@
 </svelte:head>
 
 <div class="">
+
 	<div class="absolute -top-[20vh] h-[80vh] w-full skew-y-[-8deg] bg-[#959CFF]"></div>
 
 	<div class="relative p-10">

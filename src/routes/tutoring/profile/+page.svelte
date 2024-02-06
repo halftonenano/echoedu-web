@@ -101,7 +101,7 @@
 														<Check
 															class={cn(
 																'mr-2 h-4 w-4',
-																selectedCourses.includes(course.value) && 'text-transparent'
+																(!selectedCourses.includes(course.value)) && 'text-transparent'
 															)}
 														/>
 														{course.label}

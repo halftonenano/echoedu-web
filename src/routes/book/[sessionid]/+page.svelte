@@ -9,6 +9,7 @@
 	import dayjs from 'dayjs';
 	import { Loader2 } from 'lucide-svelte';
 	import toast from 'svelte-french-toast';
+	
 
 	export let data;
 	const { session, selectedTeacherId, selectedCourseId } = data;
@@ -18,6 +19,7 @@
 </script>
 
 <div class="relative min-h-screen overflow-x-hidden">
+	
 	<div class="absolute -top-[20vh] h-[80vh] w-full skew-y-[-8deg] bg-[#959CFF]"></div>
 
 	<div class="relative p-10">

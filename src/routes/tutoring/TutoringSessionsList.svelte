@@ -51,7 +51,6 @@ import { tutorSessions, type TutorViewSession } from '$lib/tutors/sessions/tutor
 
 <div>
 	<div class="font-bold">Your Schedule</div>
-
 	<div class="mt-3 flex min-h-[60vh] flex-col gap-5 overflow-hidden rounded-md border p-5">
 		{#if loading}
 			<div class="grid h-[30vh] w-full place-items-center">

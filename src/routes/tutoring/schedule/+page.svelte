@@ -6,6 +6,7 @@
   import Input from "$lib/components/ui/input/input.svelte";
   import { tick } from "svelte";
   import PocketBase from 'pocketbase';
+	import Navbar from "$lib/components/Navbar.svelte";
 
 
 
@@ -53,13 +54,12 @@
   let selectedLocation = '';
   let selectedClass = '';
 
-  import { onMount } from "svelte";
 
   const pb = new PocketBase('https://api.echo-edu.org');
 
   // example create data
   const data = {
-    "tutor": "wgshmz1toryxpbn",
+    "tutor": "j9omu7vxfqbzq5o",
     "datetime": "2025-01-01 10:00:00.123Z",
     "location": "Library"
   };
@@ -72,9 +72,13 @@
 </script>
 
 <div class="">
+  
 	<div class="absolute -top-[20vh] h-[80vh] w-full skew-y-[-8deg] bg-[#959CFF]"></div>
-
+  
 	<div class="relative p-10">
+    <div class="absolute top-16 left-[50%] -translate-x-[50%]">
+      <Navbar/>
+    </div>
 		<div class="mx-auto mt-[20vh] w-full max-w-7xl text-[#383838]">
 			<class class="-ml-[4px] text-6xl font-bold">Scheduling Page</class>
 			<p class="-ml-[2px] mb-3 mt-1 text-2xl">Schedule your next opening!</p>
