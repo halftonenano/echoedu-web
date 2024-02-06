@@ -21,17 +21,17 @@ export async function load({ url, cookies }) {
 				cookies.get('location.origin') + '/signin/redirect'
 			);
 
-		const cookie = pb.authStore
-			.exportToCookie({
-				httpOnly: false
-			})
-			.split('pb_auth=');
-
-		console.log(cookie);
-
-		cookies.set('pb_auth', cookie[1].split(';')[0], { path: '/', httpOnly: false });
-
 		if (!authData.meta?.isNew) {
+			cookies.set(
+				'pb_auth',
+				pb.authStore
+					.exportToCookie({
+						httpOnly: false
+					})
+					.split('pb_auth=')[1]
+					.split(';')[0],
+				{ path: '/', httpOnly: false }
+			);
 			return {
 				isNew: false,
 				cookie: pb.authStore.exportToCookie({
@@ -40,24 +40,31 @@ export async function load({ url, cookies }) {
 			};
 		}
 
+		if (authData.meta) {
+			const admin = await initAdminPb();
+			await admin.collection('users').update(authData.record.id, {
+				name: authData.meta.name,
+				avatarUrl: authData.meta.avatarUrl
+			});
+
+			await pb.collection('users').authRefresh();
+		}
+
+		cookies.set(
+			'pb_auth',
+			pb.authStore
+				.exportToCookie({
+					httpOnly: false
+				})
+				.split('pb_auth=')[1]
+				.split(';')[0],
+			{ path: '/', httpOnly: false }
+		);
+
 		return {
 			isNew: (authData.meta?.isNew as boolean) || false,
-			cookie: new Promise<string>(async (resolve, reject) => {
-				if (authData.meta) {
-					const admin = await initAdminPb();
-					await admin.collection('users').update(authData.record.id, {
-						name: authData.meta.name,
-						avatarUrl: authData.meta.avatarUrl
-					});
-
-					await pb.collection('users').authRefresh();
-				}
-
-				resolve(
-					pb.authStore.exportToCookie({
-						httpOnly: false
-					})
-				);
+			cookie: pb.authStore.exportToCookie({
+				httpOnly: false
 			})
 		};
 	} catch {

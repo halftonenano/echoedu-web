@@ -14,18 +14,20 @@
 		}
 		pb.authStore.loadFromCookie(document.cookie);
 
-		if (!!data.cookie) {
-			(async () => {
-				pb.authStore.loadFromCookie(await data.cookie);
-				if (data.isNew) {
-					goto('/account/setup');
-				} else {
-					goto('/book');
-				}
-			})();
+		if (data.isNew) {
+			goto('/account/setup');
 		} else {
 			goto('/book');
 		}
+
+		// if (!!data.cookie) {
+		// 	(async () => {
+		// 		pb.authStore.loadFromCookie(await data.cookie);
+
+		// 	})();
+		// } else {
+		// 	goto('/book');
+		// }
 	});
 </script>
 
