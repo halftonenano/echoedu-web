@@ -69,7 +69,7 @@
 					} else {
 						const phone = await pb
 							.collection('phones')
-							.create({ number, carrier: selectedCarrierId });
+							.create({ number, carrier: selectedCarrierId, user: $user?.id });
 						recordid = phone.id;
 						toast.success('Saved phone number');
 					}
