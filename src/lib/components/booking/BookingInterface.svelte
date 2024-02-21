@@ -86,29 +86,29 @@
 
 <CurrentSession />
 
-<div class="rounded-lg border bg-white p-5 shadow-lg">
-	<div class="flex gap-5">
+<div class="bg-white p-5 shadow-lg md:rounded-lg md:border">
+	<div class="flex md:gap-5 md:flex-row flex-col items-center gap-3">
 		<TeacherSelector bind:selectedTeacherId />
 		<CourseSelector bind:selectedCourseId />
 	</div>
-	<div class="mt-5 flex min-h-[60vh] flex-col gap-5 overflow-hidden rounded-md border p-5">
+	<div class="mt-5 flex min-h-[60vh] flex-col gap-5 rounded-md md:border md:p-5">
 		{#if loading}
 			<div class="grid h-[30vh] w-full place-items-center">
 				<Loader2 class="h-5 animate-spin text-zinc-400" />
 			</div>
 		{:else}
 			{#each groupedSessions as day}
-				<div class="rounded-sm border">
+				<div class="rounded-sm md:border">
 					<div
-						class="cursor-default px-5 pb-2 pt-3 text-lg font-bold transition-colors hover:bg-zinc-100"
+						class="cursor-default md:px-5 pb-2 pt-3 md:text-lg font-bold transition-colors hover:bg-zinc-100"
 					>
 						{dayjs(day.date).format('dddd, MMMM D')}
 					</div>
-					<hr class="ml-8" />
+					<hr class="md:ml-8" />
 					<ul class="">
 						{#if day.sessions.length === 0}
 							<li
-								class="cursor-default px-5 py-2 pl-14 italic text-zinc-400 transition-colors hover:bg-zinc-100"
+								class="cursor-default px-5 py-2 md:pl-14 italic text-zinc-400 transition-colors hover:bg-zinc-100 md:text-base text-sm"
 							>
 								{#if selectedTeacherId === '' && selectedCourseId === ''}
 									No available sessions on this day
@@ -120,7 +120,7 @@
 
 						{#each day.sessions as session (session.id)}
 							<li
-								class="flex items-center justify-between gap-3 px-5 py-2 pl-14 transition-colors hover:bg-zinc-100"
+								class="flex items-center justify-between gap-3 px-5 py-2 md:pl-14 transition-colors hover:bg-zinc-100 md:text-base text-sm"
 							>
 								<div class="flex items-center gap-3">
 									{#if session.expand}

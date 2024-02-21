@@ -25,7 +25,7 @@
 <div class="relative min-h-screen overflow-x-hidden">
 	<div class="absolute -top-[20vh] h-[80vh] w-full skew-y-[-8deg] bg-[#959CFF]"></div>
 
-	<div class="relative p-10">
+	<div class="relative p-10 px-0">
 		<div class="mx-auto w-full max-w-7xl">
 			<h1 class="text-4xl font-bold text-[#383838]">Confirm Appointment</h1>
 			<Button
@@ -39,7 +39,7 @@
 			</Button>
 
 			<div
-				class="mx-auto mt-[15vh] flex w-full max-w-3xl flex-col gap-5 rounded-lg border bg-white p-10 shadow-lg"
+				class="mx-auto mt-[15vh] flex w-full max-w-3xl flex-col gap-5 md:rounded-lg md:border bg-white p-10 md:shadow-lg"
 			>
 				{#if success}
 					<div class="mx-auto">
@@ -49,7 +49,7 @@
 
 				<div>
 					<div class="">
-						<h2 class="text-3xl font-bold">
+						<h2 class="text-2xl md:text-3xl font-bold">
 							{session.expand?.tutor.name}
 						</h2>
 
