@@ -6,6 +6,7 @@ import type PocketBase from 'pocketbase'
 import type { RecordService } from 'pocketbase'
 
 export enum Collections {
+	AutoNhsIds = "autoNhsIds",
 	Classes = "classes",
 	Courses = "courses",
 	Notifications = "notifications",
@@ -41,6 +42,10 @@ export type AuthSystemFields<T = never> = {
 
 // Record types for each collection
 
+export type AutoNhsIdsRecord = {
+	email: string
+}
+
 export type ClassesRecord = {
 	course: RecordIdString
 	courseName?: string
@@ -56,14 +61,12 @@ export enum NotificationsReasonOptions {
 	"reminder/5mins" = "reminder/5mins",
 	"reminder/morning" = "reminder/morning",
 	"booking/new" = "booking/new",
-	"booking/confirmed" = "booking/confirmed",
-	"booking/rejected" = "booking/rejected",
 	"booking/canceled" = "booking/canceled",
 }
 export type NotificationsRecord = {
 	datetime: IsoDateString
 	phone: RecordIdString
-	reason: NotificationsReasonOptions
+	reason?: NotificationsReasonOptions
 	session?: RecordIdString
 	user?: RecordIdString
 }
@@ -98,8 +101,7 @@ export type SecretsRecord = {
 }
 
 export type SessionsRecord = {
-	confirmed?: boolean
-	datetime?: IsoDateString
+	datetime: IsoDateString
 	location?: string
 	tutee?: RecordIdString
 	tutor: RecordIdString
@@ -113,16 +115,19 @@ export type TeachersRecord = {
 export type TutorsRecord = {
 	classes?: RecordIdString[]
 	grade: number
+	isNHS?: boolean
 	name: string
 	user: RecordIdString
 }
 
 export type UsersRecord = {
 	avatar?: string
+	avatarUrl?: string
 	name?: string
 }
 
 // Response types include system fields and match responses from the PocketBase API
+export type AutoNhsIdsResponse<Texpand = unknown> = Required<AutoNhsIdsRecord> & BaseSystemFields<Texpand>
 export type ClassesResponse<Texpand = unknown> = Required<ClassesRecord> & BaseSystemFields<Texpand>
 export type CoursesResponse<Texpand = unknown> = Required<CoursesRecord> & BaseSystemFields<Texpand>
 export type NotificationsResponse<Texpand = unknown> = Required<NotificationsRecord> & BaseSystemFields<Texpand>
@@ -136,6 +141,7 @@ export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSyste
 // Types containing all Records and Responses, useful for creating typing helper functions
 
 export type CollectionRecords = {
+	autoNhsIds: AutoNhsIdsRecord
 	classes: ClassesRecord
 	courses: CoursesRecord
 	notifications: NotificationsRecord
@@ -148,6 +154,7 @@ export type CollectionRecords = {
 }
 
 export type CollectionResponses = {
+	autoNhsIds: AutoNhsIdsResponse
 	classes: ClassesResponse
 	courses: CoursesResponse
 	notifications: NotificationsResponse
@@ -163,6 +170,7 @@ export type CollectionResponses = {
 // https://github.com/pocketbase/js-sdk#specify-typescript-definitions
 
 export type TypedPocketBase = PocketBase & {
+	collection(idOrName: 'autoNhsIds'): RecordService<AutoNhsIdsResponse>
 	collection(idOrName: 'classes'): RecordService<ClassesResponse>
 	collection(idOrName: 'courses'): RecordService<CoursesResponse>
 	collection(idOrName: 'notifications'): RecordService<NotificationsResponse>

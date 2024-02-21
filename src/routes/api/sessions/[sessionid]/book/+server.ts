@@ -6,6 +6,8 @@ import { json } from '@sveltejs/kit';
 
 export async function POST({ params: { sessionid }, request }) {
 	pb.authStore.loadFromCookie(request.headers.get('Cookie') || '');
+	if (!pb.authStore.model?.id) return json({ error: 'you are not signed in' }, { status: 403 });
+
 	const admin = await initAdminPb();
 	let session: ExpandedSession | null = null;
 	try {

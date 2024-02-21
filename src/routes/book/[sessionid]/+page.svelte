@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import NhsBadge from '$lib/components/booking/NhsBadge.svelte';
 	import { refreshCurrentSession } from '$lib/components/booking/sessions/currentSessionStore.js';
 	import TeacherBadge from '$lib/components/booking/teachers/TeacherBadge.svelte';
 	import { Button } from '$lib/components/ui/button';
@@ -9,7 +10,6 @@
 	import dayjs from 'dayjs';
 	import { Loader2 } from 'lucide-svelte';
 	import toast from 'svelte-french-toast';
-	
 
 	export let data;
 	const { session, selectedTeacherId, selectedCourseId } = data;
@@ -18,8 +18,11 @@
 	let success = false;
 </script>
 
+<svelte:head>
+	<title>EchoEDU — Book session from {data.session.expand?.tutor.name}</title>
+</svelte:head>
+
 <div class="relative min-h-screen overflow-x-hidden">
-	
 	<div class="absolute -top-[20vh] h-[80vh] w-full skew-y-[-8deg] bg-[#959CFF]"></div>
 
 	<div class="relative p-10">
@@ -30,16 +33,14 @@
 				variant="link"
 				on:click={() => {
 					history.back();
-				}}>← return</Button
+				}}
 			>
+				← return
+			</Button>
 
 			<div
 				class="mx-auto mt-[15vh] flex w-full max-w-3xl flex-col gap-5 rounded-lg border bg-white p-10 shadow-lg"
 			>
-				<!-- <div class="w-fit rounded border bg-neutral-100 px-3 py-1 text-sm text-neutral-400">
-					id: {session.id}
-				</div> -->
-
 				{#if success}
 					<div class="mx-auto">
 						<div use:confetti />
@@ -54,6 +55,9 @@
 
 						{#if session.expand?.tutor.expand?.classes}
 							<div class="mt-2 flex flex-wrap gap-3">
+								{#if session.expand.tutor.isNHS}
+									<NhsBadge />
+								{/if}
 								{#each session.expand.tutor.expand.classes as takenclass}
 									{#if (selectedTeacherId === '' || takenclass.teacher === selectedTeacherId) && (selectedCourseId === '' || takenclass.course === selectedCourseId)}
 										<TeacherBadge name={takenclass.teacherName} course={takenclass.courseName} />

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { pb } from '$lib/pocketbase';
+	import { pb, user } from '$lib/pocketbase';
 	import type { ExpandedSession } from '$lib/types/types';
 	import dayjs from 'dayjs';
 	import { Loader2 } from 'lucide-svelte';
@@ -8,6 +8,8 @@
 	import CurrentSession from './sessions/CurrentSession.svelte';
 	import TeacherBadge from './teachers/TeacherBadge.svelte';
 	import TeacherSelector from './teachers/TeacherSelector.svelte';
+	import type { SessionsRecord, SessionsResponse } from '$lib/types/db';
+	import NhsBadge from './NhsBadge.svelte';
 
 	let loading = true;
 	let fetchedSessions: ExpandedSession[] = [];
@@ -71,6 +73,15 @@
 			groupedSessions = groupedSessions;
 		}
 	}
+
+	function getBookingLink(session: SessionsResponse) {
+		return `/book/${session.id}${
+			selectedTeacherId !== '' || selectedCourseId !== '' ? '?' : ''
+		}${new URLSearchParams({
+			...(selectedTeacherId ? { teacher: selectedTeacherId } : {}),
+			...(selectedCourseId ? { course: selectedCourseId } : {})
+		})}`;
+	}
 </script>
 
 <CurrentSession />
@@ -99,7 +110,11 @@
 							<li
 								class="cursor-default px-5 py-2 pl-14 italic text-zinc-400 transition-colors hover:bg-zinc-100"
 							>
-								No available sessions under selected filters
+								{#if selectedTeacherId === '' && selectedCourseId === ''}
+									No available sessions on this day
+								{:else}
+									No available sessions under selected filters
+								{/if}
 							</li>
 						{/if}
 
@@ -111,6 +126,9 @@
 									{#if session.expand}
 										{session.expand.tutor.name}
 										{#if session.expand.tutor.expand}
+											{#if session.expand.tutor.isNHS}
+												<NhsBadge />
+											{/if}
 											{#each session.expand.tutor.expand.classes as takenclass}
 												{#if (selectedTeacherId === '' || takenclass.teacher === selectedTeacherId) && (selectedCourseId === '' || takenclass.course === selectedCourseId)}
 													<TeacherBadge
@@ -123,12 +141,9 @@
 									{/if}
 								</div>
 								<a
-									class="transition-color rounded-sm bg-[#959CFF] px-4 py-1 text-sm font-bold text-white underline-offset-4 duration-500 hover:bg-[#7f7fec]"
-									href="/book/{session.id}?{new URLSearchParams({
-										...(selectedTeacherId ? { teacher: selectedTeacherId } : {}),
-										...(selectedCourseId ? { course: selectedCourseId } : {})
-									})}"
-									data-sveltekit-preload-data="tap">book →</a
+									class="-mr-3 rounded bg-[#959CFF] px-4 py-1 text-sm font-bold text-white shadow-md transition hover:-translate-y-1 hover:bg-[#7f7fec]"
+									href="{$user ? '' : '/signin?after='}{getBookingLink(session)}"
+									data-sveltekit-preload-data="tap">book</a
 								>
 							</li>
 						{/each}

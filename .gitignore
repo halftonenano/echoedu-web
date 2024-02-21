@@ -11,3 +11,5 @@ vite.config.ts.timestamp-*
 
 pocketbase.exe
 /pb_data
+
+/src/routes/api/internal/temp-add-nhs

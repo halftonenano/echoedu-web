@@ -7,8 +7,6 @@
 	export let data;
 
 	onMount(() => {
-		console.log(data);
-
 		if (data.error) {
 			alert(data.error);
 			goto('/signin');
@@ -24,7 +22,13 @@
 		if (data.isNew) {
 			goto('/account/setup');
 		} else {
-			goto('/book');
+			const authAfter = localStorage.getItem('auth_after');
+			if (authAfter) {
+				localStorage.removeItem('auth_after');
+				goto(authAfter);
+			} else {
+				goto('/book');
+			}
 		}
 	});
 </script>

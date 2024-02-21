@@ -5,6 +5,7 @@
 	import TeacherBadge from '../teachers/TeacherBadge.svelte';
 	import CancelSessionButton from './CancelSessionButton.svelte';
 	import { currentSession } from './currentSessionStore';
+	import NhsBadge from '../NhsBadge.svelte';
 </script>
 
 {#if $currentSession}
@@ -27,6 +28,9 @@
 
 			{#if $currentSession.expand?.tutor.expand?.classes}
 				<div class="mt-2 flex flex-wrap gap-3">
+					{#if $currentSession.expand.tutor.isNHS}
+						<NhsBadge />
+					{/if}
 					{#each $currentSession.expand.tutor.expand.classes as takenclass}
 						<TeacherBadge name={takenclass.teacherName} course={takenclass.courseName} />
 					{/each}

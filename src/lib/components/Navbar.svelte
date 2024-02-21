@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { pb } from '$lib/pocketbase';
+	import { pb, user } from '$lib/pocketbase';
 </script>
 
 <div class="nav-selector absolute right-5 top-5 z-[99]">
@@ -9,8 +9,8 @@
 	<a href="/tutoring/schedule" data-state={$page.route.id === '/tutoring/schedule' && 'active'}>Schedule</a>
 	<a href="/account">
 		Account
-		{#if pb.authStore.model}
-			: {pb.authStore.model?.name}
+		{#if $user}
+			: {$user.name}
 		{/if}
 	</a>
 </div>

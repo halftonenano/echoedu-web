@@ -56,3 +56,7 @@ export const flyAndScale = (
 };
 
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+export function eraseCookie(name: string) {
+	document.cookie = name + '=; Max-Age=-99999999;';
+}

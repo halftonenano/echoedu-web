@@ -5,9 +5,11 @@
 	import '../app.css';
 </script>
 
+<svelte:head>
+	<title>EchoEDU — Echoing Teacher Expectations</title>
+</svelte:head>
+
 <Toaster containerClassName="text-sm font-bold" />
 <Navbar />
-
 <slot />
-
 <Analytics />

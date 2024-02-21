@@ -62,16 +62,16 @@
 					Clear
 				</Command.Item>
 				<Command.Separator class="my-1" />
-				{#each options as framework}
+				{#each options as course}
 					<Command.Item
-						value={framework.value}
+						value={course.value}
 						onSelect={(currentValue) => {
 							value = currentValue;
 							closeAndFocusTrigger(ids.trigger);
 						}}
 					>
-						<Check class={cn('mr-2 h-4 w-4', value !== framework.value && 'text-transparent')} />
-						{framework.label}
+						<Check class={cn('mr-2 h-4 w-4', value !== course.value && 'text-transparent')} />
+						{course.label}
 					</Command.Item>
 				{/each}
 			</Command.Group>
