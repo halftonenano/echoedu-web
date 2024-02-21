@@ -12,6 +12,8 @@ export async function POST({ params: { sessionid }, request }) {
 	pb.authStore.loadFromCookie(request.headers.get('Cookie') || '');
 	const admin = await initAdminPb();
 
+	console.log(pb.authStore.model);
+
 	let session: ExpandedSession | null = null;
 	try {
 		// Check if they have session
