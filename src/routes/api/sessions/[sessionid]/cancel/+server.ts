@@ -1,18 +1,12 @@
 import { pb } from '$lib/pocketbase.js';
 import { initAdminPb } from '$lib/server/pb-admin.js';
-import {
-	NotificationsReasonOptions,
-	type SessionsResponse,
-	type NotificationsRecord
-} from '$lib/types/db.js';
+import { NotificationsReasonOptions, type NotificationsRecord } from '$lib/types/db.js';
 import type { ExpandedSession } from '$lib/types/types';
 import { json } from '@sveltejs/kit';
 
 export async function POST({ params: { sessionid }, request }) {
 	pb.authStore.loadFromCookie(request.headers.get('Cookie') || '');
 	const admin = await initAdminPb();
-
-	console.log(pb.authStore.model);
 
 	let session: ExpandedSession | null = null;
 	try {

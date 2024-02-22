@@ -1,14 +1,13 @@
 <script lang="ts">
+	import { pb, user } from '$lib/pocketbase';
+	import { cn } from '$lib/utils';
+	import { Loader2 } from 'lucide-svelte';
+	import { onMount } from 'svelte';
+	import toast from 'svelte-french-toast';
 	import { Button } from '../ui/button';
+	import * as Card from '../ui/card';
 	import { Input } from '../ui/input';
 	import CarrierSelector from './CarrierSelector.svelte';
-	import ConfirmationCodeInput from './ConfirmationCodeInput.svelte';
-	import * as Card from '../ui/card';
-	import { Loader2 } from 'lucide-svelte';
-	import { cn } from '$lib/utils';
-	import { onMount } from 'svelte';
-	import { pb, user } from '$lib/pocketbase';
-	import toast from 'svelte-french-toast';
 
 	let recordid = '';
 	let number: number | undefined;
