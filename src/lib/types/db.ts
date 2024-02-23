@@ -68,6 +68,7 @@ export type NotificationsRecord = {
 	phone: RecordIdString
 	reason?: NotificationsReasonOptions
 	session?: RecordIdString
+	tutee?: boolean
 	user?: RecordIdString
 }
 

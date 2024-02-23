@@ -24,10 +24,9 @@
 
 <div class="">
 	<div class="border-b bg-[#959CFF] pt-[17vh]">
-		<div class="mx-auto w-full max-w-5xl px-5">
-			<h1 class="text-4xl font-bold text-[#383838]">Confirm Appointment</h1>
+		<div class="mx-auto w-full max-w-6xl px-5 pb-5 md:px-10 md:pb-8">
 			<Button
-				class="mb-3 mt-1 p-1 text-lg"
+				class="mb-1 mt-1 p-1 text-lg"
 				variant="link"
 				on:click={() => {
 					history.back();
@@ -35,10 +34,11 @@
 			>
 				← return
 			</Button>
+			<h1 class="text-4xl font-bold text-[#383838]">Confirm Appointment</h1>
 		</div>
 	</div>
 	<div class="mx-auto w-full max-w-3xl">
-		<div class="flex w-full flex-col gap-5 bg-white p-5 md:pt-10">
+		<div class="flex w-full flex-col gap-5 bg-white p-5 md:p-10">
 			{#if success}
 				<div class="mx-auto">
 					<div use:confetti />

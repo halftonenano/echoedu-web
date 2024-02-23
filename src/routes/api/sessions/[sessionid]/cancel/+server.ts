@@ -30,7 +30,8 @@ export async function POST({ params: { sessionid }, request }) {
 			session: session.id,
 			reason: NotificationsReasonOptions['booking/canceled'],
 			datetime: new Date().toISOString(),
-			phone: phone.id
+			phone: phone.id,
+			tutee: false
 		} satisfies NotificationsRecord);
 	} catch (e) {
 		console.log(e);

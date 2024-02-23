@@ -10,7 +10,7 @@
 
 {#if $currentSession}
 	<div
-		class="md:mb-5 rounded-t-lg md:rounded-lg border-t md:border bg-white p-5 shadow-lg"
+		class="mb-5 rounded-lg border-t border bg-white p-5 shadow-md md:shadow-lg"
 		transition:fly={{ x: 200, duration: 400 }}
 	>
 		<div class="flex gap-3">
