@@ -48,13 +48,13 @@
 			variant="outline"
 			role="combobox"
 			aria-expanded={open}
-			class="w-[20rem] justify-between shadow-sm"
+			class="w-[15rem] justify-between shadow-sm"
 		>
 			{selectedValue}
 			<ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
 		</Button>
 	</Popover.Trigger>
-	<Popover.Content class="mt-2 w-[20rem] p-0">
+	<Popover.Content class="mt-2 w-[15rem] p-0">
 		<Command.Root>
 			<Command.Group>
 				{#each options as framework}

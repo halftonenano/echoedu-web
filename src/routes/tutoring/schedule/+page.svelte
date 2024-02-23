@@ -6,7 +6,7 @@
 	import TimeSelector from '$lib/tutoring/TimeSelector.svelte';
 	import { getLocalTimeZone, today } from '@internationalized/date';
 	import dayjs from 'dayjs';
-	import PocketBase from 'pocketbase';
+	import { pb } from '$lib/pocketbase';
 	import { tick } from 'svelte';
 
 	const start = today(getLocalTimeZone());
@@ -14,6 +14,8 @@
 
 	let value = today(getLocalTimeZone());
 
+	console.log('VALUE:');
+	console.log(value.day);
 	const times = [
 		{
 			value: 'tutorial',
@@ -44,20 +46,34 @@
 
 	let selectedTime = '';
 	let selectedLocation = '';
-	let selectedClass = '';
-
-	const pb = new PocketBase('https://api.echo-edu.org');
-
+	let realTime = '';
 	// example create data
-	const data = {
-		tutor: 'j9omu7vxfqbzq5o',
-		datetime: '2025-01-01 10:00:00.123Z',
-		location: 'Library'
-	};
 
 	async function createRecord() {
-		// const record = await pb.collection('sessions').create(data);
-		// console.log(record);
+		console.log(selectedTime);
+		if (selectedTime == 'During Tutorial') {
+			realTime = '18:05:00';
+		} else if (selectedTime == 'During 7th Period') {
+			realTime = '22:25:00';
+		} else if (selectedTime) {
+			realTime = '23:30:00';
+		}
+		// console.log(selectedLocation)
+		let dateTime = dayjs(dayjs(value).add(8, "h")).format('YYYY-MM-D') + ' ' + realTime + '.123Z';
+
+		const tutorChad = await pb
+			.collection('tutors')
+			.getFirstListItem(`name="${pb.authStore.model?.name}"`);
+		console.log(tutorChad.id);
+		const data = {
+			tutor: tutorChad.id,
+			datetime: dateTime,
+			location: selectedLocation
+		};
+
+		console.log(pb.authStore.model?.id);
+		const record = await pb.collection('sessions').create(data);
+		console.log(record);
 	}
 </script>
 
@@ -71,32 +87,25 @@
 			<div class="rounded-lg border bg-white p-5 shadow-lg">
 				<div class="overflow-hidden rounded-md border p-5">
 					<div class="flex w-full flex-col gap-8 p-2">
-						<div class="flex w-full gap-5">
-							<Calendar bind:value class="rounded-md border shadow-sm" />
+						<div class="lg:flex md:flex sm:flex-col xs:flex-col w-full gap-5">
+							<Calendar bind:value class="w-fit rounded-md border shadow-sm" />
 
-							<div class="grid flex-1 grid-cols-2 grid-rows-2 gap-5">
+							<div class="flex flex-1 flex-wrap gap-5">
 								<div class="box">
 									<div class="box-header">Date Selected</div>
-									<div
-										class="box-content font-bold"
-									>
+									<div class="box-content font-bold">
 										{#if value}
-											{dayjs(value).format('dddd, MMMM D')}
+											{dayjs(dayjs(value).add(8, "h")).format('dddd, MMMM D')}
+											<!-- {dayjs(value).format('YYYY-MM-D')} -->
 										{:else}
 											Not selected
 										{/if}
 									</div>
 								</div>
-								<div class="box">
+								<div class="box w-fit">
 									<div class="box-header">Time</div>
 									<div class="box-content">
 										<TimeSelector bind:selectedTime />
-									</div>
-								</div>
-								<div class="box">
-									<div class="box-header">Subject</div>
-									<div class="box-content">
-										<CourseSelector bind:selectedCourseId={selectedClass} />
 									</div>
 								</div>
 								<div class="box">
@@ -110,9 +119,41 @@
 										/>
 									</div>
 								</div>
+								<button
+									on:click={() => {
+										createRecord();
+									}}
+									class="flex w-[48%] flex-col place-items-center justify-evenly rounded-md bg-[#959CFF] p-4 px-6 text-3xl font-bold text-white shadow-sm transition duration-300 ease-out hover:-translate-y-1 hover:bg-[#7f7fec] hover:shadow-lg"
+								>
+									<div>Schedule Availability</div>
+									<div class="flex place-items-center gap-4 text-xl">
+										<span class="">Date:</span>
+										{#if value}
+											{value}
+										{:else}
+											Unselected
+										{/if}
+									</div>
+									<div class="flex place-items-center gap-4 text-xl">
+										<span class="">Time:</span>
+										{#if selectedTime}
+											{selectedTime}
+										{:else}
+											Unselected
+										{/if}
+									</div>
+									<div class="flex place-items-center gap-4 text-xl">
+										<span class="">Location:</span>
+										{#if selectedLocation}
+											{selectedLocation}
+										{:else}
+											Unselected
+										{/if}
+									</div>
+								</button>
 							</div>
 						</div>
-						<button
+						<!-- <button
 							on:click={() => {
 								createRecord();
 							}}
@@ -136,14 +177,6 @@
 								{/if}
 							</div>
 							<div class="text-lg">
-								<span class="text-3xl">Subject:</span><br />
-								{#if selectedClass}
-									{selectedClass}
-								{:else}
-									Unselected
-								{/if}
-							</div>
-							<div class="text-lg">
 								<span class="text-3xl">Location:</span> <br />
 								{#if selectedLocation}
 									{selectedLocation}
@@ -151,7 +184,7 @@
 									Unselected
 								{/if}
 							</div>
-						</button>
+						</button> -->
 					</div>
 				</div>
 			</div>
@@ -225,7 +258,7 @@
 
 <style>
 	.box {
-		@apply flex flex-col rounded-md border shadow-sm;
+		@apply flex w-[48%] flex-col rounded-md border shadow-sm;
 	}
 
 	.box-header {
