@@ -1,35 +1,32 @@
 <script lang="ts">
 	import BackgroundSlant from '$lib/components/BackgroundSlant.svelte';
 	import { Button } from '$lib/components/ui/button';
+	import TeacherBadge from '$lib/components/booking/teachers/TeacherBadge.svelte';
 	import * as Command from '$lib/components/ui/command';
 	import * as Popover from '$lib/components/ui/popover';
+	import { onMount } from 'svelte';
 	import { pb } from '$lib/pocketbase';
 	import { cn } from '$lib/utils';
 	import { Check, ChevronsUpDown } from 'lucide-svelte';
 	import { tick } from 'svelte';
 
-	const courses = [
-		{
-			value: 'english3',
-			label: 'English 3'
-		},
-		{
-			value: 'next.js',
-			label: 'Next.js'
-		},
-		{
-			value: 'nuxt.js',
-			label: 'Nuxt.js'
-		},
-		{
-			value: 'remix',
-			label: 'Remix'
-		},
-		{
-			value: 'astro',
-			label: 'Astro'
+	let courses: any = [];
+
+	onMount(async () => {
+		const records = await pb.collection('classes').getFullList({
+			sort: '-created'
+		});
+
+		for (let i = 0; i < records.length; i++) {
+			courses = [
+				...courses,
+				{ teacher: records[i].teacherName, course: records[i].courseName, id: records[i].id }
+			];
+			// courses.push()
 		}
-	];
+		console.log(records);
+		console.log(courses);
+	});
 
 	let open = false;
 	let selectedCourses: string[] = [];
@@ -41,18 +38,36 @@
 		});
 	}
 
-	function toggleCourse(courseValue: string) {
+	function toggleCourse(courseValue: any) {
 		if (selectedCourses.includes(courseValue)) {
 			selectedCourses = selectedCourses.filter((c) => c !== courseValue);
-		} else {
+		} else if (selectedCourses.length < 4) {
 			selectedCourses = [...selectedCourses, courseValue];
 		}
+		console.log(selectedCourses[0].split(', ')[2]);
+	}
+
+	async function update() {
+		const data = {
+			user: pb.authStore.model?.id,
+			name: pb.authStore.model?.name,
+			grade: pb.authStore.model?.grade,
+			classes: selectedCourses.map((course) => course.split(', ')[2])
+		};
+		// user = @request.auth.id && @request.data.name:isset = false
+		// pb.authStore.model?.name
+		console.log('kachow');
+		const tutorChad = await pb
+			.collection('tutors')
+			.getFirstListItem(`name="${pb.authStore.model?.name}"`);
+		console.log(tutorChad.id);
+		const record = await pb.collection('tutors').update(`${tutorChad.id}`, data);
 	}
 
 	console.log(pb.authStore.model);
 </script>
 
-<div class="">
+<body class="hideScroll" id="ScrollingBlock">
 	<BackgroundSlant />
 
 	<div class="relative p-10">
@@ -61,16 +76,22 @@
 			<p class="-ml-[2px] mb-3 mt-1 text-2xl">Set up your tutoring profile</p>
 
 			<div class="rounded-lg border bg-white p-5 shadow-lg">
-				<div class="">
-					<div class="font-bold">Name</div>
-					<div>{pb.authStore.model?.name}</div>
-
-					<div class="col-span-2 mx-auto mt-4 flex h-fit w-full rounded-md border text-2xl">
-						<div class="h-full w-48 border-r p-4 font-bold">
-							<div class="grid place-items-center">Courses:</div>
+				<div class="flex flex-col">
+					<div class="flex justify-between pl-2">
+						<div class="flex flex-col">
+							<div class="font-bold">Name</div>
+							<div>{pb.authStore.model?.name}</div>
 						</div>
-						<div class="flex-1 p-4">
-							<div class="grid place-items-start">
+						<Button on:click={() => update()}>Update</Button>
+					</div>
+
+					<div class="col-span-2 mx-auto mt-4 flex h-48 w-full rounded-md border text-2xl">
+						<div class="flex h-full w-48 flex-col justify-around border-r p-4 font-bold">
+							<div class="grid place-items-center">Courses:</div>
+							<div class="grid place-items-center">Selected:</div>
+						</div>
+						<div class="flex flex-1 flex-col justify-around p-4">
+							<div class="grid w-full place-items-start">
 								<Popover.Root bind:open let:ids>
 									<Popover.Trigger asChild let:builder>
 										<Button
@@ -92,7 +113,7 @@
 											<Command.Group>
 												{#each courses as course}
 													<Command.Item
-														value={course.value}
+														value={`${course.teacher}, ${course.course}, ${course.id}`}
 														onSelect={(currentValue) => {
 															toggleCourse(currentValue);
 															closeAndFocusTrigger(ids.trigger);
@@ -101,28 +122,40 @@
 														<Check
 															class={cn(
 																'mr-2 h-4 w-4',
-																(!selectedCourses.includes(course.value)) && 'text-transparent'
+																!selectedCourses.includes(
+																	`${course.teacher}, ${course.course}, ${course.id}`
+																) && 'text-transparent'
 															)}
 														/>
-														{course.label}
+														{course.teacher + ', ' + course.course + ', ' + course.id}
 													</Command.Item>
 												{/each}
 											</Command.Group>
 										</Command.Root>
 									</Popover.Content>
 								</Popover.Root>
-
-								<p class="text-lg font-bold">Selected Courses:</p>
-								<ul>
-									{#each selectedCourses as courseValue}
-										<li>{courses.find((c) => c.value === courseValue)?.label}</li>
-									{/each}
-								</ul>
 							</div>
+
+							<ul class="min-h-16 flex h-6 w-full flex-wrap gap-4">
+								{#each selectedCourses as courseValue}
+									<li>
+										<TeacherBadge
+											name={courseValue.split(', ')[0]}
+											course={courseValue.split(', ')[1]}
+										/>
+									</li>
+								{/each}
+							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
+</body>
+
+<style>
+	/* body.hideScroll {
+    overflow: hidden;
+  } */
+</style>

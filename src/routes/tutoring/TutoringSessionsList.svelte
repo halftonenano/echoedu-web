@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/components/ui/button/button.svelte';
-import { tutorSessions, type TutorViewSession } from '$lib/tutors/sessions/tutorSessionsStore';
+	import { tutorSessions, type TutorViewSession } from '$lib/tutors/sessions/tutorSessionsStore';
 	import dayjs from 'dayjs';
 	import { Loader2, X } from 'lucide-svelte';
 

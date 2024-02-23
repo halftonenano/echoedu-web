@@ -15,12 +15,15 @@
 
 	<div class="flex flex-col gap-5 md:flex-row">
 		<div class="w-full p-5">
-			<div class="flex items-center gap-3">
-				<img src="/assets/google.png" alt="google logo" class="h-5" />
-				{$user?.name}
+			<div class="flex items-center gap-3 justify-between">
+				<div class="flex items-center gap-3">
+					<img src="/assets/google.png" alt="google logo" class="h-5" />
+					{$user?.name}
+				</div>
+				{$user?.email}
 			</div>
 			<hr class="my-2" />
-			{$user?.email}
+			
 
 			<Button
 				class="flex w-full items-center gap-2 shadow-sm mt-5"
