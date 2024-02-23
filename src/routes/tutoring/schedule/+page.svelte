@@ -80,17 +80,19 @@
 <div class="">
 	<div class="absolute -top-[20vh] h-[80vh] w-full skew-y-[-8deg] bg-[#959CFF]"></div>
 
-	<div class="relative p-10">
+	<div class="relative p-6 md:p-10">
 		<div class="mx-auto mt-[20vh] w-full max-w-7xl text-[#383838]">
 			<class class="-ml-[4px] text-6xl font-bold">Scheduling Page</class>
 			<p class="-ml-[2px] mb-3 mt-1 text-2xl">Schedule your next opening!</p>
 			<div class="rounded-lg border bg-white p-5 shadow-lg">
-				<div class="overflow-hidden rounded-md border p-5">
-					<div class="flex w-full flex-col gap-8 p-2">
-						<div class="lg:flex md:flex sm:flex-col xs:flex-col w-full gap-5">
-							<Calendar bind:value class="w-fit rounded-md border shadow-sm" />
+				<div class="overflow-hidden rounded-md border p-2 sm:p-4 md:p-6 lg:p-8 xl:p-8">
+					<div class="flex w-full flex-col gap-8 mx-auto">
+						<div class="flex-col sm:flex-col md:flex-col lg:flex-row flex w-full gap-5">
+							<div class="w-full h-fit grid place-items-center lg:w-auto lg:h-auto lg:grid lg:place-items-auto">
+								<Calendar bind:value class=" w-fit rounded-md border shadow-sm scale-[.9] sm:scale-90 md:scale-95 lg:scale-100 xl:scale-100" />
+							</div>
 
-							<div class="flex flex-1 flex-wrap gap-5">
+							<div class="flex w-full flex-wrap gap-5">
 								<div class="box">
 									<div class="box-header">Date Selected</div>
 									<div class="box-content font-bold">
@@ -102,7 +104,7 @@
 										{/if}
 									</div>
 								</div>
-								<div class="box w-fit">
+								<div class="box">
 									<div class="box-header">Time</div>
 									<div class="box-content">
 										<TimeSelector bind:selectedTime />
@@ -123,7 +125,7 @@
 									on:click={() => {
 										createRecord();
 									}}
-									class="flex w-[48%] flex-col place-items-center justify-evenly rounded-md bg-[#959CFF] p-4 px-6 text-3xl font-bold text-white shadow-sm transition duration-300 ease-out hover:-translate-y-1 hover:bg-[#7f7fec] hover:shadow-lg"
+									class="flex w-[48%] flex-1 flex-col place-items-center justify-evenly rounded-md bg-[#959CFF] p-4 px-6 text-3xl font-bold text-white shadow-sm transition duration-300 ease-out hover:-translate-y-1 hover:bg-[#7f7fec] hover:shadow-lg"
 								>
 									<div>Schedule Availability</div>
 									<div class="flex place-items-center gap-4 text-xl">
@@ -258,7 +260,7 @@
 
 <style>
 	.box {
-		@apply flex w-[48%] flex-col rounded-md border shadow-sm;
+		@apply flex w-[48%] flex-col rounded-md border shadow-sm flex-1 min-w-[48%];
 	}
 
 	.box-header {
