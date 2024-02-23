@@ -122,19 +122,25 @@
 							<li
 								class="flex items-center justify-between gap-3 px-5 py-2 md:pl-14 transition-colors hover:bg-zinc-100 md:text-base text-sm"
 							>
-								<div class="flex items-center gap-3">
+								<div class="flex items-center gap-3 flex-wrap">
 									{#if session.expand}
-										{session.expand.tutor.name}
+										<div class='w-full md:w-fit lg:w-fit'>
+											{session.expand.tutor.name}
+										</div>	
 										{#if session.expand.tutor.expand}
 											{#if session.expand.tutor.isNHS}
-												<NhsBadge />
+												<div class=" scale-[.85] -mx-3 md:scale-100 md:mx-0">
+													<NhsBadge />
+												</div>
 											{/if}
 											{#each session.expand.tutor.expand.classes as takenclass}
 												{#if (selectedTeacherId === '' || takenclass.teacher === selectedTeacherId) && (selectedCourseId === '' || takenclass.course === selectedCourseId)}
+												<div class=" scale-[.85] -mx-3 md:scale-100 md:mx-0">
 													<TeacherBadge
-														name={takenclass.teacherName}
-														course={takenclass.courseName}
-													/>
+															name={takenclass.teacherName}
+															course={takenclass.courseName}
+														/>
+												</div>	
 												{/if}
 											{/each}
 										{/if}
