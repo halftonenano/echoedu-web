@@ -129,13 +129,13 @@
 										</div>	
 										{#if session.expand.tutor.expand}
 											{#if session.expand.tutor.isNHS}
-												<div class=" scale-[.85] -mx-3 md:scale-100 md:mx-0">
+												<div class="scale-75 -my-1.5 -mx-5 sm:scale-[.85] sm:-mx-3 md:scale-100 md:mx-0">
 													<NhsBadge />
 												</div>
 											{/if}
 											{#each session.expand.tutor.expand.classes as takenclass}
 												{#if (selectedTeacherId === '' || takenclass.teacher === selectedTeacherId) && (selectedCourseId === '' || takenclass.course === selectedCourseId)}
-												<div class=" scale-[.85] -mx-3 md:scale-100 md:mx-0">
+												<div class="scale-75 -my-1.5 -mx-5 sm:scale-[.85] sm:-mx-3 md:scale-100 md:mx-0">
 													<TeacherBadge
 															name={takenclass.teacherName}
 															course={takenclass.courseName}
