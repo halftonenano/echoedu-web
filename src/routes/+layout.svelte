@@ -1,6 +1,6 @@
 <script>
 	import Analytics from '$lib/components/Analytics.svelte';
-	import Navbar from '$lib/components/Navbar.svelte';
+	import Navbar from '$lib/components/nav/Navbar.svelte';
 	import { Toaster } from 'svelte-french-toast';
 	import '../app.css';
 </script>

@@ -5,31 +5,55 @@
 	import * as Command from '$lib/components/ui/command';
 	import * as Popover from '$lib/components/ui/popover';
 	import { onMount } from 'svelte';
-	import { pb } from '$lib/pocketbase';
+	import { pb, user } from '$lib/pocketbase';
 	import { cn } from '$lib/utils';
 	import { Check, ChevronsUpDown } from 'lucide-svelte';
 	import { tick } from 'svelte';
+	import PageFormat from '$lib/components/PageFormat.svelte';
 
-	let courses: any = [];
+	let courses: { teacher: string; course: string; id: string }[] = [];
+
+	let open = false;
+	let selectedCourses: string[] = [];
 
 	onMount(async () => {
 		const records = await pb.collection('classes').getFullList({
 			sort: '-created'
 		});
 
-		for (let i = 0; i < records.length; i++) {
-			courses = [
-				...courses,
-				{ teacher: records[i].teacherName, course: records[i].courseName, id: records[i].id }
-			];
-			// courses.push()
+		for (const record of records) {
+			courses.push({ teacher: record.teacherName, course: record.courseName, id: record.id });
 		}
-		console.log(records);
-		console.log(courses);
-	});
 
-	let open = false;
-	let selectedCourses: string[] = [];
+		courses = courses;
+
+		const tutorChad = await pb
+			.collection('tutors')
+			.getFirstListItem(`user="${$user?.id}"`);
+
+		console.log('TUTORCHAD');
+
+		// for (const classId of tutorChad.classes){
+		// 	const thingy = await pb.collection('classes').getOne(classId);
+		// 	console.log(thingy)
+		// 	selectedCourses.push(thingy.teacherName+", "+thingy.courseName+", "+classId)
+		// }
+
+		// console.log(tutorChad.classes);
+
+		const coursesStrings = courses.map(
+			(course) => `${course.teacher}, ${course.course}, ${course.id}`
+		);
+		for (const previouslySelected of tutorChad.classes) {
+			for (const courseString of coursesStrings) {
+				if (courseString.includes(previouslySelected)) {
+					selectedCourses.push(courseString);
+				}
+			}
+		}
+
+		selectedCourses = selectedCourses;
+	});
 
 	function closeAndFocusTrigger(triggerId: string) {
 		open = false;
@@ -48,12 +72,6 @@
 	}
 
 	async function update() {
-		const data = {
-			user: pb.authStore.model?.id,
-			name: pb.authStore.model?.name,
-			grade: pb.authStore.model?.grade,
-			classes: selectedCourses.map((course) => course.split(', ')[2])
-		};
 		// user = @request.auth.id && @request.data.name:isset = false
 		// pb.authStore.model?.name
 		console.log('kachow');
@@ -61,101 +79,81 @@
 			.collection('tutors')
 			.getFirstListItem(`name="${pb.authStore.model?.name}"`);
 		console.log(tutorChad.id);
-		const record = await pb.collection('tutors').update(`${tutorChad.id}`, data);
+		const record = await pb.collection('tutors').update(`${tutorChad.id}`, {classes: selectedCourses.map((course) => course.split(', ')[2])});
 	}
 
 	console.log(pb.authStore.model);
 </script>
 
-<body class="hideScroll" id="ScrollingBlock">
-	<BackgroundSlant />
+<PageFormat title="Tutor Page" description="Set up your tutoring profile">
+	<div class="flex flex-col">
+		<div class="flex justify-between pl-2">
+			<div class="flex flex-col">
+				<div class="font-bold">Name</div>
+				<div>{pb.authStore.model?.name}</div>
+			</div>
+			<Button on:click={() => update()}>Update</Button>
+		</div>
 
-	<div class="relative p-10">
-		<div class="mx-auto mt-[20vh] w-full max-w-7xl text-[#383838]">
-			<class class="-ml-[4px] text-6xl font-bold">Tutor Page</class>
-			<p class="-ml-[2px] mb-3 mt-1 text-2xl">Set up your tutoring profile</p>
+		<div class="col-span-2 mx-auto mt-4 flex h-96 md:h-48 md:mb-0 w-full rounded-md border text-2xl">
+			<div class="flex h-full w-48 flex-col justify-around border-r p-4 font-bold">
+				<div class="grid place-items-center">Courses:</div>
+				<div class="grid place-items-center">Selected:</div>
+			</div>
+			<div class="flex flex-1 flex-col justify-around p-4">
+				<div class="grid w-full place-items-start">
+					<Popover.Root bind:open let:ids>
+						<Popover.Trigger asChild let:builder>
+							<Button
+								builders={[builder]}
+								variant="outline"
+								role="combobox"
+								aria-expanded={open}
+								class="w-[90%] justify-between md:w-[300px]"
+							>
+								Select Courses
+								<ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
+							</Button>
+						</Popover.Trigger>
 
-			<div class="rounded-lg border bg-white p-5 shadow-lg">
-				<div class="flex flex-col">
-					<div class="flex justify-between pl-2">
-						<div class="flex flex-col">
-							<div class="font-bold">Name</div>
-							<div>{pb.authStore.model?.name}</div>
-						</div>
-						<Button on:click={() => update()}>Update</Button>
-					</div>
-
-					<div class="col-span-2 mx-auto mt-4 flex h-48 w-full rounded-md border text-2xl">
-						<div class="flex h-full w-48 flex-col justify-around border-r p-4 font-bold">
-							<div class="grid place-items-center">Courses:</div>
-							<div class="grid place-items-center">Selected:</div>
-						</div>
-						<div class="flex flex-1 flex-col justify-around p-4">
-							<div class="grid w-full place-items-start">
-								<Popover.Root bind:open let:ids>
-									<Popover.Trigger asChild let:builder>
-										<Button
-											builders={[builder]}
-											variant="outline"
-											role="combobox"
-											aria-expanded={open}
-											class="w-[300px] justify-between"
+						<Popover.Content class="mt-2 w-[90%] md:w-[300px] p-0">
+							<Command.Root>
+								<Command.Input placeholder="Search course..." />
+								<Command.Empty>No class found.</Command.Empty>
+								<Command.Group class="max-h-56 overflow-y-scroll">
+									{#each courses as course}
+										<Command.Item
+											value={`${course.teacher}, ${course.course}, ${course.id}`}
+											onSelect={(currentValue) => {
+												toggleCourse(currentValue);
+												closeAndFocusTrigger(ids.trigger);
+											}}
 										>
-											Select Courses
-											<ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
-										</Button>
-									</Popover.Trigger>
-
-									<Popover.Content class="w-[300px] p-0">
-										<Command.Root>
-											<Command.Input placeholder="Search course..." />
-											<Command.Empty>No class found.</Command.Empty>
-											<Command.Group>
-												{#each courses as course}
-													<Command.Item
-														value={`${course.teacher}, ${course.course}, ${course.id}`}
-														onSelect={(currentValue) => {
-															toggleCourse(currentValue);
-															closeAndFocusTrigger(ids.trigger);
-														}}
-													>
-														<Check
-															class={cn(
-																'mr-2 h-4 w-4',
-																!selectedCourses.includes(
-																	`${course.teacher}, ${course.course}, ${course.id}`
-																) && 'text-transparent'
-															)}
-														/>
-														{course.teacher + ', ' + course.course + ', ' + course.id}
-													</Command.Item>
-												{/each}
-											</Command.Group>
-										</Command.Root>
-									</Popover.Content>
-								</Popover.Root>
-							</div>
-
-							<ul class="min-h-16 flex h-6 w-full flex-wrap gap-4">
-								{#each selectedCourses as courseValue}
-									<li>
-										<TeacherBadge
-											name={courseValue.split(', ')[0]}
-											course={courseValue.split(', ')[1]}
-										/>
-									</li>
-								{/each}
-							</ul>
-						</div>
-					</div>
+											<Check
+												class={cn(
+													'mr-2 h-4 w-4',
+													!selectedCourses.includes(
+														`${course.teacher}, ${course.course}, ${course.id}`
+													) && 'text-transparent'
+												)}
+											/>
+											{course.teacher + ', ' + course.course}
+										</Command.Item>
+									{/each}
+								</Command.Group>
+							</Command.Root>
+						</Popover.Content>
+					</Popover.Root>
 				</div>
+
+				<ul class="min-h-16 flex h-6 w-full flex-wrap gap-2 md:gap-4 mb-20 md:mb-0">
+					{#each selectedCourses as courseValue}
+						<li>
+							<TeacherBadge name={courseValue.split(', ')[0]} course={courseValue.split(', ')[1]} />
+						</li>
+					{/each}
+				</ul>
 			</div>
 		</div>
 	</div>
-</body>
-
-<style>
-	/* body.hideScroll {
-    overflow: hidden;
-  } */
-</style>
+</PageFormat>

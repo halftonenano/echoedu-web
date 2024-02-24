@@ -2,6 +2,9 @@
 	import Typewriter from 'svelte-typewriter';
 	import { PencilLine } from 'lucide-svelte';
 	import BookingInterface from '$lib/components/booking/BookingInterface.svelte';
+	import BackgroundSlant from "$lib/components/BackgroundSlant.svelte"
+	import PageFormat from "$lib/components/PageFormat.svelte"
+
 </script>
 
 <svelte:head>
@@ -22,13 +25,24 @@
 
 <div class="">
 
-	<div class="absolute -top-[20vh] h-[80vh] w-full skew-y-[-8deg] bg-[#959CFF]"></div>
+<div class="absolute md:-top-[20vh] md:h-[70vh] w-full md:skew-y-[-8deg] md:bg-[#959CFF]"></div>
 
-	<div class="relative p-10">
-		<div class="mx-auto mt-[20vh] w-full max-w-7xl text-[#383838]">
-			<h1 class="-ml-[4px] text-6xl font-bold">EchoEDU</h1>
-			<p class="-ml-[2px] mb-3 mt-1 text-2xl">Echoing teacher expectations</p>
-			<BookingInterface />
+<div class="relative md:p-10">
+	<div class="mx-auto w-fit text-[#383838]">
+		<div
+			class="-mb-5 bg-[#959CFF] p-5 pb-10 pt-[17vh] md:m-0 md:bg-transparent md:p-0 md:pt-[20vh]"
+		>
+			<h1 class="-ml-[6px] text-4xl font-bold md:text-[10rem] skew-y-[-8deg] mb-24">ECHO EDU</h1>
+			<p class="-ml-[2px] -mt-6 text-lg md:mb-3 md:text-2xl skew-y-[-8deg]">Echoing teacher expectations...</p>
+		</div>
+		<div class="w-full h-72">
+		</div>
+
+
+		<div class="rounded-lg border-y md:border bg-white p-5 shadow-lg">
+			kachow
 		</div>
 	</div>
+</div>
+	
 </div>
