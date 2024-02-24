@@ -122,28 +122,39 @@
 							<li
 								class="flex items-center justify-between gap-3 px-5 py-2 md:pl-14 transition-colors hover:bg-zinc-100 md:text-base text-sm"
 							>
-								<div class="flex items-center gap-3 flex-wrap">
+								<div class="flex items-center gap-3 w-full">
 									{#if session.expand}
-										<div class='w-full md:w-fit lg:w-fit'>
-											{session.expand.tutor.name}
-										</div>	
-										{#if session.expand.tutor.expand}
-											{#if session.expand.tutor.isNHS}
-												<div class="scale-75 -my-1.5 -mx-5 sm:scale-[.85] sm:-mx-3 md:scale-100 md:mx-0">
-													<NhsBadge />
-												</div>
-											{/if}
-											{#each session.expand.tutor.expand.classes as takenclass}
-												{#if (selectedTeacherId === '' || takenclass.teacher === selectedTeacherId) && (selectedCourseId === '' || takenclass.course === selectedCourseId)}
-												<div class="scale-75 -my-1.5 -mx-5 sm:scale-[.85] sm:-mx-3 md:scale-100 md:mx-0">
-													<TeacherBadge
-															name={takenclass.teacherName}
-															course={takenclass.courseName}
-														/>
-												</div>	
+										<div class="flex items-center gap-3 flex-wrap w-full">
+											<div class='w-full md:w-fit lg:w-fit'>
+												{session.expand.tutor.name}
+											</div>	
+											{#if session.expand.tutor.expand}
+												{#if session.expand.tutor.isNHS}
+													<div class="scale-75 -my-1.5 -mx-5 sm:scale-[.85] sm:-mx-3 md:scale-100 md:mx-0">
+														<NhsBadge />
+													</div>
 												{/if}
-											{/each}
-										{/if}
+												{#each session.expand.tutor.expand.classes as takenclass}
+													{#if (selectedTeacherId === '' || takenclass.teacher === selectedTeacherId) && (selectedCourseId === '' || takenclass.course === selectedCourseId)}
+													<div class="scale-75 -my-1.5 -mx-5 sm:scale-[.85] sm:-mx-3 md:scale-100 md:mx-0">
+														<TeacherBadge
+																name={takenclass.teacherName}
+																course={takenclass.courseName}
+															/>
+													</div>	
+													{/if}
+												{/each}
+												{/if}
+										</div>
+											<div class="w-36 text-right font-bold text-md">
+												{#if dayjs(session.datetime).format("HH:mm")=="10:05"}
+													Tutorial
+												{:else if dayjs(session.datetime).format("HH:mm")=="15:05"}
+													During 7th
+												{:else}
+													After 7th
+												{/if}
+										</div>
 									{/if}
 								</div>
 								<a

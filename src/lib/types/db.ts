@@ -6,6 +6,7 @@ import type PocketBase from 'pocketbase'
 import type { RecordService } from 'pocketbase'
 
 export enum Collections {
+	Applications = "applications",
 	AutoNhsIds = "autoNhsIds",
 	Classes = "classes",
 	Courses = "courses",
@@ -41,6 +42,10 @@ export type AuthSystemFields<T = never> = {
 } & BaseSystemFields<T>
 
 // Record types for each collection
+
+export type ApplicationsRecord = {
+	user: RecordIdString
+}
 
 export type AutoNhsIdsRecord = {
 	email: string
@@ -115,7 +120,6 @@ export type TeachersRecord = {
 
 export type TutorsRecord = {
 	classes?: RecordIdString[]
-	grade: number
 	isNHS?: boolean
 	name: string
 	user: RecordIdString
@@ -128,6 +132,7 @@ export type UsersRecord = {
 }
 
 // Response types include system fields and match responses from the PocketBase API
+export type ApplicationsResponse<Texpand = unknown> = Required<ApplicationsRecord> & BaseSystemFields<Texpand>
 export type AutoNhsIdsResponse<Texpand = unknown> = Required<AutoNhsIdsRecord> & BaseSystemFields<Texpand>
 export type ClassesResponse<Texpand = unknown> = Required<ClassesRecord> & BaseSystemFields<Texpand>
 export type CoursesResponse<Texpand = unknown> = Required<CoursesRecord> & BaseSystemFields<Texpand>
@@ -142,6 +147,7 @@ export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSyste
 // Types containing all Records and Responses, useful for creating typing helper functions
 
 export type CollectionRecords = {
+	applications: ApplicationsRecord
 	autoNhsIds: AutoNhsIdsRecord
 	classes: ClassesRecord
 	courses: CoursesRecord
@@ -155,6 +161,7 @@ export type CollectionRecords = {
 }
 
 export type CollectionResponses = {
+	applications: ApplicationsResponse
 	autoNhsIds: AutoNhsIdsResponse
 	classes: ClassesResponse
 	courses: CoursesResponse
@@ -171,6 +178,7 @@ export type CollectionResponses = {
 // https://github.com/pocketbase/js-sdk#specify-typescript-definitions
 
 export type TypedPocketBase = PocketBase & {
+	collection(idOrName: 'applications'): RecordService<ApplicationsResponse>
 	collection(idOrName: 'autoNhsIds'): RecordService<AutoNhsIdsResponse>
 	collection(idOrName: 'classes'): RecordService<ClassesResponse>
 	collection(idOrName: 'courses'): RecordService<CoursesResponse>

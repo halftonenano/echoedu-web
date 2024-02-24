@@ -3,6 +3,8 @@
 	import { tutorSessions, type TutorViewSession } from '$lib/tutors/sessions/tutorSessionsStore';
 	import dayjs from 'dayjs';
 	import { Loader2, X } from 'lucide-svelte';
+	import { pb } from '$lib/pocketbase';
+
 
 	let loading = false;
 	let groupedSessions: { date: string; sessions: TutorViewSession[] }[] = [];
@@ -47,6 +49,13 @@
 	}
 
 	$: console.log($tutorSessions);
+
+	async function cancelSession(session: any){
+		console.log(session)
+		await pb.collection('sessions').delete(session);
+		window.location.reload();
+	}
+
 </script>
 
 <div>
@@ -94,7 +103,7 @@
 									{/if}
 								</div>
 
-                <Button class='p-0 m-0 h-fit' variant="link"><X size={18} /></Button>
+                <Button on:click={()=>{cancelSession(session.id)}} class='p-0 m-0 h-fit' variant="link"><X size={18} /></Button>
 							</li>
 						{/each}
 					</ul>

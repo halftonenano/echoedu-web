@@ -8,6 +8,8 @@
 	import dayjs from 'dayjs';
 	import { pb } from '$lib/pocketbase';
 	import { tick } from 'svelte';
+	import toast from 'svelte-french-toast';
+
 
 	const start = today(getLocalTimeZone());
 	const end = start.add({ days: 7 });
@@ -70,10 +72,17 @@
 			datetime: dateTime,
 			location: selectedLocation
 		};
-
+		try {
+			await pb
+			.collection('sessions')
+			.getFirstListItem(`tutor="${tutorChad.id}" && datetime="${dateTime}"`);
+			toast.error("This session already exists");
+		} catch {
+			const record = await pb.collection('sessions').create(data);
+			console.log(record);
+			toast.success("Session scheduled!");
+		}
 		console.log(pb.authStore.model?.id);
-		const record = await pb.collection('sessions').create(data);
-		console.log(record);
 	}
 </script>
 

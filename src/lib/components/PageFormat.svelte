@@ -23,7 +23,7 @@
 		{#if noBox}
 			<slot />
 		{:else}
-			<div class="rounded-lg border-y md:border bg-white p-5 shadow-lg">
+			<div class="rounded-lg border-y md:border bg-white p-5 shadow-lg min-h-[80vh] md:min-h-fit">
 				<slot />
 			</div>
 		{/if}
