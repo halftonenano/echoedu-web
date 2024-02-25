@@ -163,7 +163,7 @@
 										</div>
 									</div>
 									<div class="text-[#383838] text-base">
-										Fullstack Developer<br/>President of Leigh Robotics and Interact
+										Fullstack Developer<br/>Robotics President<br/>Leigh Interact President
 									</div>
 								</div>
 							</HoverCard.Content>

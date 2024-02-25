@@ -88,6 +88,10 @@
 			<div class="font-bold">Name</div>
 			<div>{pb.authStore.model?.name}</div>
 		</div>
+		<!-- <div class="flex flex-col">
+			<div class="font-bold">Grade</div>
+			<div>{pb.authStore.model?.Grade}</div>
+		</div> -->
 		<Button on:click={() => update()}>Update</Button>
 	</div>
 
