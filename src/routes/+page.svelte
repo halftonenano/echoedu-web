@@ -189,11 +189,11 @@
 										</div>
 										<div class="flex justify-evenly flex-1 pl-10 place-items-center scale-150">
 											<a href="https://github.com/vidhu-vv" class="w-12"><Github /></a>
-											<a href="https://www.instagram.com/_vidhu.v_/" class="w-12"><Link /></a>
+											<a href="https://vidhusvilla.vercel.app/" class="w-12"><Link /></a>
 										</div>
 									</div>
 									<div class="text-[#383838] text-lg mt-4">
-										Fullstack Developer
+										Fullstack Developer <br/> Math Animator <br/> Blogger
 									</div>
 								</div>
 							</HoverCard.Content>
