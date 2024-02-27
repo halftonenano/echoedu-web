@@ -13,9 +13,6 @@
 	const end = start.add({ days: 7 });
 
 	let value = today(getLocalTimeZone());
-
-	console.log('VALUE:');
-	console.log(value.day);
 	const times = [
 		{
 			value: 'tutorial',
@@ -46,11 +43,10 @@
 
 	let selectedTime = '';
 	let selectedLocation = '';
-	let realTime = '';
+	let realTime = '22:25:00';
 	// example create data
 
 	async function createRecord() {
-		console.log(selectedTime);
 		if (selectedTime == 'During Tutorial') {
 			realTime = '18:05:00';
 		} else if (selectedTime == 'During 7th Period') {
@@ -59,23 +55,29 @@
 			realTime = '23:30:00';
 		}
 		// console.log(selectedLocation)
-		let dateTime = dayjs(dayjs(value).add(8, 'h')).format('YYYY-MM-D') + ' ' + realTime + '.123Z';
+		let dateTime = dayjs(dayjs(value).add(8, 'h')).format('YYYY-MM-DD') + ' ' + realTime + '.123Z';
 
 		const tutorChad = await pb
 			.collection('tutors')
 			.getFirstListItem(`name="${pb.authStore.model?.name}"`);
-		console.log(tutorChad.id);
 		const data = {
 			tutor: tutorChad.id,
 			datetime: dateTime,
 			location: selectedLocation
 		};
 		try {
-			await pb
-				.collection('sessions')
-				.getFirstListItem(`tutor="${tutorChad.id}" && datetime="${dateTime}"`);
-			toast.error('This session already exists');
+			if (selectedLocation && dateTime){
+				await pb
+					.collection('sessions')
+					.getFirstListItem(`tutor="${tutorChad.id}" && datetime="${dateTime}"`);
+				toast.error('This session already exists');
+			} else {
+				toast.error('Please fill all fields out');
+			}
 		} catch {
+			console.log("DATA");
+			console.log(dateTime);
+			console.log(selectedLocation);
 			const record = await pb.collection('sessions').create(data);
 			console.log(record);
 			toast.success('Session scheduled!');
@@ -127,7 +129,7 @@
 						}}
 						class="flex w-[48%] flex-1 flex-col place-items-center justify-evenly rounded-md bg-[#959CFF] p-4 px-6 text-3xl font-bold text-white shadow-sm transition duration-300 ease-out hover:-translate-y-1 hover:bg-[#7f7fec] hover:shadow-lg"
 					>
-						<div>Schedule Availability</div>
+						<div>Confirm Availability</div>
 						<div class="flex place-items-center gap-4 text-xl">
 							<span class="">Date:</span>
 							{#if value}

@@ -101,7 +101,7 @@
 			<div class="grid place-items-center">Selected:</div>
 		</div>
 		<div class="flex flex-1 flex-col justify-around p-4">
-			<div class="grid w-full place-items-start">
+			<div class="flex w-full place-items-start">
 				<Popover.Root bind:open let:ids>
 					<Popover.Trigger asChild let:builder>
 						<Button
@@ -144,6 +144,9 @@
 						</Command.Root>
 					</Popover.Content>
 				</Popover.Root>
+				<div class="ml-12 grid h-full place-items-center text-base italic text-red-500">
+					Do not select classes you are CURRENTLY taking.
+				</div>
 			</div>
 
 			<ul class="min-h-16 mb-20 flex h-6 w-full flex-wrap gap-2 md:mb-0 md:gap-4">
