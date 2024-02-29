@@ -50,7 +50,7 @@
 	<div
 		class={cn(
 			'relative z-[999] flex items-center transition',
-			scrollY === 0 ? 'bg-[#959CFF]' : 'shadow-lg backdrop-blur-md',
+			scrollY === 0 ? 'bg-[#959CFF]' : 'shadow-lg backdrop-blur-sm',
 			open && 'bg-[#959CFF] shadow-none'
 		)}
 	>
@@ -65,7 +65,7 @@
 			</span>
 		</button>
 
-		<a href="/" class="text-xl font-bold">ECHOEDU</a>
+		<a href={$user ? '/book' : '/'} class="text-xl font-bold">ECHOEDU</a>
 	</div>
 
 	{#if open}
@@ -73,27 +73,27 @@
 			<div class="w-max-md -mt-[10vh] flex h-full flex-col items-center justify-center md:mt-0">
 				<a
 					href="/book"
-					class={cn('nav-item text-center', $page.route.id?.startsWith('/book') && 'active')}
+					class={cn('nav-item text-center', $page.route?.id?.startsWith('/book') && 'active')}
 				>
 					Book
 				</a>
 				{#if isTutor}
 					<a
 						href="/tutoring"
-						class={cn('nav-item text-center', $page.route.id === '/tutoring' && 'active')}
+						class={cn('nav-item text-center', $page.route?.id === '/tutoring' && 'active')}
 					>
 						Tutoring
 					</a>
 					<a
 						href="/tutoring/schedule"
-						class={cn('nav-item text-center', $page.route.id === '/tutoring/schedule' && 'active')}
+						class={cn('nav-item text-center', $page.route?.id === '/tutoring/schedule' && 'active')}
 					>
 						Schedule
 					</a>
 				{:else}
 					<a
 						href="/tutoring/signup"
-						class={cn('nav-item text-center', $page.route.id === '/tutoring' && 'active')}
+						class={cn('nav-item text-center', $page.route?.id === '/tutoring' && 'active')}
 					>
 						Sign up as a tutor
 					</a>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import BackgroundSlant from './BackgroundSlant.svelte';
+	import Footer from './Footer.svelte';
 
 	export let title: string;
 	export let description: string | undefined;
@@ -29,3 +30,6 @@
 		{/if}
 	</div>
 </div>
+
+<div class="h-20"></div>
+<Footer />

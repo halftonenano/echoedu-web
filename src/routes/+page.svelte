@@ -1,8 +1,9 @@
 <script lang="ts">
-	import * as HoverCard from '$lib/components/ui/hover-card';
 	import 'locomotive-scroll/locomotive-scroll.css';
-	import { ChevronDown, Github, Link } from 'lucide-svelte';
+	import { AlignVerticalDistributeCenter, GraduationCap, Handshake, User2 } from 'lucide-svelte';
 	import { onDestroy, onMount } from 'svelte';
+	import FeatureCard from './FeatureCard.svelte';
+	import Footer from '$lib/components/Footer.svelte';
 
 	let scroll: any;
 
@@ -35,202 +36,83 @@
 	<meta name="twitter:image:src" content="/assets/essaymode.png" /> -->
 </svelte:head>
 
-<div class="">
-	<div class="absolute w-full md:-top-[20vh] md:h-[70vh] md:skew-y-[-8deg] md:bg-[#959CFF]"></div>
+<div class="absolute -top-[20vh] h-[calc(50vh_+_300px)] w-full skew-y-[-8deg] bg-[#959CFF]"></div>
 
-	<div class="relative md:p-10">
-		<div class="mx-auto w-fit text-[#383838]">
-			<div
-				class="-mb-5 bg-[#959CFF] p-5 pb-10 pt-[17vh] md:m-0 md:bg-transparent md:p-0 md:pt-[20vh]"
-			>
-				<h1 class="-ml-[6px] mb-24 skew-y-[-8deg] text-4xl font-bold md:text-[10rem]">ECHO EDU</h1>
-				<p class="-ml-[2px] -mt-6 skew-y-[-8deg] text-lg md:mb-3 md:text-2xl">
-					Echoing teacher expectations...
-				</p>
+<div class="relative p-10">
+	<div class="mx-auto w-fit text-[#383838]">
+		<div class="pt-[35vh]">
+			<div data-scroll data-scroll-speed={0.2}>
+				<h1 class="-ml-[4px] mb-10 skew-y-[-8deg] text-6xl font-bold md:text-8xl">EchoEDU</h1>
 			</div>
-			<div class="h-16 w-full"></div>
-		</div>
-		<div class="grid w-full place-items-center">
-			<a
-				href="/signin"
-				class="rounded-xl border-4 border-[#959CFF] bg-white p-4 px-6 text-4xl font-bold text-[#383838] transition-colors duration-300 hover:border-[#646ce3] hover:bg-[#959CFF] hover:text-[#f1f1f1]"
-			>
-				Join now
-			</a>
-		</div>
-		<div class="h-32 w-full"></div>
-		<div class="m-6 mx-auto flex w-[90%] gap-8">
-			<div class="flex-1">
-				<div
-					class="grid h-20 w-full place-items-center rounded-lg border-y bg-[#7c83dd] text-2xl font-bold text-[#f1f1f1] shadow-lg md:border"
-				>
-					Get One on One Tutoring
-				</div>
-			</div>
-			<div class="flex-1">
-				<div
-					class="grid h-20 w-full place-items-center rounded-lg border-y bg-[#6a72e1] text-2xl font-bold text-[#f1f1f1] shadow-lg md:border"
-				>
-					Learn from Upperclassmen
-				</div>
-			</div>
-			<div class="flex-1">
-				<div
-					class="grid h-20 w-full place-items-center rounded-lg border-y bg-[#575ec5] text-2xl font-bold text-[#f1f1f1] shadow-lg md:border"
-				>
-					Earn Service Hours as a Tutor
-				</div>
-			</div>
-		</div>
-		<div class="h-32 w-full"></div>
-		<div class="bounce grid w-full place-items-center">
-			<div class="scale-[2] text-[#575ec5]">
-				<ChevronDown />
-			</div>
-		</div>
-		<div class="h-16 w-full"></div>
-		<div class="mx-auto flex w-[90%] justify-between">
-			<div class="h-fit w-[50%] rounded-lg border-y bg-white shadow-lg md:border">
-				<div
-					class="flex h-16 w-full place-items-center rounded-t-lg bg-[#959CFF] pl-4 text-4xl font-bold text-[#383838]"
-				>
-					What is EchoEDU?
-				</div>
-				<div class="px-4 py-2 text-xl text-[#383838]">
-					Magna proident cupidatat qui est elit labore eu consequat culpa magna. In est ad labore
-					tempor ex. Quis minim qui reprehenderit ipsum anim sit nostrud amet sit. Consequat ad
-					minim eiusmod tempor Lorem duis est quis et duis cillum consequat eu. Magna proident
-					cupidatat qui est elit labore eu consequat culpa magna. In est ad labore tempor ex. Quis
-					minim qui reprehenderit ipsum anim sit nostrud amet sit. Consequat ad minim eiusmod tempor
-					Lorem duis est quis et duis cillum consequat eu. Magna proident cupidatat qui est elit
-					labore eu consequat culpa magna. In est ad labore tempor ex. Quis minim qui reprehenderit
-					ipsum anim sit nostrud amet sit. Consequat ad minim eiusmod tempor Lorem duis est quis et
-					duis cillum consequat eu. Magna proident cupidatat qui est elit labore eu consequat culpa
-					magna. In est ad labore tempor ex. Quis minim qui reprehenderit ipsum anim sit nostrud
-					amet sit. Consequat ad minim eiusmod tempor Lorem duis est quis et duis cillum consequat
-					eu.
-				</div>
-			</div>
-			<div class="mr-4 mt-16 h-fit w-[40%] rounded-lg border-y bg-white shadow-lg md:border">
-				<img src={'/assets/tutoringpicture.jpeg'} alt="Alex" class="rounded-xl" />
-			</div>
-		</div>
-		<div class="h-48 w-full"></div>
-		<!-- <div class="w-24 mx-auto aspect-square rounded-full bg-red-500"></div> -->
-	</div>
-	<!-- <div class="w-full h-32 bg-[#959CFF] -skew-y-6"></div> -->
-	<div class="relative w-full overflow-y-hidden bg-[#959CFF] py-6 text-[#383838]">
-		<div class="text mx-auto flex w-[90%] flex-col gap-0">
-			<div class="text-4xl font-bold text-[#383838]">Website Developed by ContinuityLabs</div>
-			<div class="mt-6 grid grid-cols-3 place-items-center gap-2">
-				<div class="flex flex-col gap-4">
-					<div class="w-64 text-center text-2xl font-bold">
-						<HoverCard.Root>
-							<HoverCard.Trigger>
-								<div class="transition-transform duration-300 hover:scale-125">Gene Iwasaki</div>
-							</HoverCard.Trigger>
-							<HoverCard.Content>
-								<div class="flex flex-col gap-2 tracking-wide">
-									<div class="w-full text-xl font-bold">Gene Iwasaki</div>
-									<div class="flex justify-between">
-										<div class="mx-auto aspect-square w-16 rounded-full bg-red-500">
-											<img
-												src={'/assets/genepicture.png'}
-												alt="Gene"
-												class="aspect-square w-16 rounded-full"
-											/>
-										</div>
-										<div class="flex flex-1 scale-150 place-items-center justify-evenly pl-10">
-											<a href="https://github.com/halftonenano" class="w-12"><Github /></a>
-											<a href="https://www.instagram.com/genethegreatish/" class="w-12"><Link /></a>
-										</div>
-									</div>
-									<div class="mt-4 text-lg text-[#383838]">Fullstack Developer</div>
-								</div>
-							</HoverCard.Content>
-						</HoverCard.Root>
-					</div>
-				</div>
-				<div class="flex flex-col gap-4">
-					<div class="w-64 text-center text-2xl font-bold">
-						<HoverCard.Root>
-							<HoverCard.Trigger>
-								<div class="transition-transform duration-300 hover:scale-125">Alexander Bonev</div>
-							</HoverCard.Trigger>
-							<HoverCard.Content>
-								<div class="flex flex-col gap-2 tracking-wide">
-									<div class="w-full text-xl font-bold">Alexander Bonev</div>
-									<div class="flex justify-between">
-										<div
-											class="mx-auto grid aspect-square w-16 place-items-center rounded-full bg-red-500"
-										>
-											<img
-												src={'/assets/alexpicture.jpg'}
-												alt="Alex"
-												class="aspect-square w-16 rounded-full"
-											/>
-										</div>
-										<div class="flex flex-1 scale-150 place-items-center justify-evenly pl-10">
-											<a href="https://github.com/Alex-Bonev" class="w-12"><Github /></a>
-											<a href="https://www.instagram.com/actuallyalecc/" class="w-12"><Link /></a>
-										</div>
-									</div>
-									<div class="text-base text-[#383838]">
-										Fullstack Developer<br />Robotics President<br />Leigh Interact President
-									</div>
-								</div>
-							</HoverCard.Content>
-						</HoverCard.Root>
-					</div>
-				</div>
-				<div class="flex flex-col gap-4">
-					<div class="w-64 text-center text-2xl font-bold">
-						<HoverCard.Root>
-							<HoverCard.Trigger>
-								<div class="transition-transform duration-300 hover:scale-125">Vidhu Venugopal</div>
-							</HoverCard.Trigger>
-							<HoverCard.Content>
-								<div class="flex flex-col gap-2 tracking-wide">
-									<div class="w-full text-xl font-bold">Vidhu Venugopal</div>
-									<div class="flex justify-between">
-										<div class="mx-auto aspect-square w-16 rounded-full bg-red-500">
-											<img
-												src={'/assets/vidhupicture.jpeg'}
-												alt="Vidhu"
-												class="aspect-square w-16 rounded-full"
-											/>
-										</div>
-										<div class="flex flex-1 scale-150 place-items-center justify-evenly pl-10">
-											<a href="https://github.com/vidhu-vv" class="w-12"><Github /></a>
-											<a href="https://vidhusvilla.vercel.app/" class="w-12"><Link /></a>
-										</div>
-									</div>
-									<div class="mt-4 text-lg text-[#383838]">
-										Fullstack Developer <br /> Math Animator <br /> Blogger
-									</div>
-								</div>
-							</HoverCard.Content>
-						</HoverCard.Root>
-					</div>
-				</div>
+			<div data-scroll data-scroll-speed={0.1}>
+				<p class="-mt-6 skew-y-[-8deg] text-lg md:mb-3 md:text-2xl">Echoing teacher expectations</p>
 			</div>
 		</div>
 	</div>
 </div>
 
+<div class="mx-auto mt-28 w-full max-w-2xl p-7 text-[#383838]">
+	<div>
+		<div
+			class="mx-auto w-fit overflow-hidden rounded-md bg-[#383838] shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+		>
+			<a href="/book">
+				<div class="hover-slide -my-0.5 px-10 py-5 text-center font-bold text-white md:text-lg">
+					View Avaiable Tutoring Sessions →
+				</div>
+			</a>
+		</div>
+	</div>
+
+	<div class="mt-10 flex flex-col gap-2.5 rounded-lg border bg-zinc-50 p-5 shadow-lg">
+		<FeatureCard>
+			<div class="aspect-square rounded bg-[#cec3f7]/30 p-3 text-[#b8ace2]">
+				<AlignVerticalDistributeCenter size={22} />
+			</div>
+			Flexible Booking
+		</FeatureCard>
+		<FeatureCard>
+			<div class="aspect-square rounded bg-[#cec3f7]/30 p-3 text-[#b8ace2]">
+				<GraduationCap size={22} />
+			</div>
+			Familiarity with the Curriculum
+		</FeatureCard>
+		<FeatureCard>
+			<div class="aspect-square rounded bg-[#cec3f7]/30 p-3 text-[#b8ace2]">
+				<Handshake size={22} />
+			</div>
+			Personalized Support
+		</FeatureCard>
+	</div>
+
+	<h2 class="mb-2 mt-20 text-center text-xl font-bold">What is EchoEDU?</h2>
+	<p class="text-center">
+		EchoEDU is a non-profit tutoring organization powered by high school students, dedicated to
+		supporting our peers through free, one-time English tutoring sessions primarily focused on essay
+		revisions and larger projects. While other tutoring organizations may seem nearly identical or
+		even superior, we employ a relatively unique approach to tutoring that cannot be replicated:
+		self selection. Students are able to match with tutors who have had their teacher previously,
+		ensuring tailored support which echos the expectations of their teacher. In a world where
+		writing is everything but objective, it is imperative to understand the criteria that your
+		teacher has provided. Unfortunately, this cannot be achieved through a simple rubric. Rather, it
+		must be learned through direct and extensive experience with the teacher; thus, to no fault of
+		their own, the average tutor will be unable to assist a student to the best of their abilities
+		in writing. Here at EchoEDU, we have the tools which empower students to excel as writers,
+		allowing students to thrive academically while collaborating with their peers.
+	</p>
+</div>
+
+<div class="h-20"></div>
+<Footer />
+
 <style>
-	@keyframes bounce {
-		0%,
-		100% {
-			transform: translateY(-80%);
-			animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-		}
-		50% {
-			transform: none;
-			animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
-		}
+	.hover-slide {
+		background: linear-gradient(0deg, #959cff, #959cff) no-repeat right bottom / 0 var(--bg-h);
+		transition: background-size 350ms;
+		--bg-h: 100%;
 	}
-	.bounce {
-		animation: bounce 2s infinite;
+	.hover-slide:where(:hover, :focus-visible) {
+		background-size: 100% var(--bg-h);
+		background-position-x: left;
 	}
 </style>
