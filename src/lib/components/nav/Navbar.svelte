@@ -23,7 +23,7 @@
 		open = false;
 	});
 
-	export let open = false;
+	export let open = true;
 
 	const debounce = (fn: any) => {
 		let frame: number;
@@ -69,8 +69,10 @@
 	</div>
 
 	{#if open}
-		<div transition:fly={{ y: -50 }} class="h-screen bg-[#959CFF] pt-10 shadow-lg md:h-fit">
-			<div class="w-max-md -mt-[10vh] flex h-full flex-col items-center justify-center md:mt-0">
+		<div transition:fly={{ y: -50 }} class="h-screen bg-[#959CFF] pt-5 shadow-lg md:h-fit">
+			<div
+				class="w-max-md -mt-[10vh] flex h-full flex-col items-center justify-center md:mt-0 md:flex-row"
+			>
 				<a
 					href="/book"
 					class={cn('nav-item text-center', $page.route?.id?.startsWith('/book') && 'active')}
@@ -101,7 +103,7 @@
 
 				<a
 					href={$user ? '/account' : '/signin'}
-					class="mt-5 rounded-md bg-white px-5 py-3 shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-lg"
+					class="mt-5 rounded-md bg-white px-5 py-3 shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-lg md:ml-4 md:mt-0"
 				>
 					{#if $user}
 						<div class="flex items-center gap-3">
@@ -115,7 +117,7 @@
 			</div>
 
 			<div
-				class="mt-16 hidden border md:block"
+				class="mt-7 hidden border md:block"
 				transition:scale={{ duration: 500, easing: quadOut, opacity: 1 }}
 			/>
 		</div>
@@ -128,7 +130,7 @@
 			no-repeat right bottom / 0 var(--bg-h);
 		transition: background-size 350ms;
 		--bg-h: 100%;
-		@apply w-64 px-2 py-2 text-2xl font-bold text-[#09090B];
+		@apply w-64 px-2 py-2 text-2xl font-bold text-[#09090B] md:w-fit md:px-7;
 	}
 	.nav-item:where(:hover, :focus-visible) {
 		background-size: 100% var(--bg-h);

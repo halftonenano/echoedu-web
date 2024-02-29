@@ -3,7 +3,7 @@
 </script>
 
 <footer class="border-t bg-zinc-50 p-7">
-	<div class="mx-auto my-10 flex max-w-7xl justify-between gap-20 md:flex-row flex-col">
+	<div class="mx-auto my-5 flex max-w-7xl justify-between gap-20 md:flex-row flex-col">
 		<div class="text-4xl font-bold text-[#383838]">EchoEDU</div>
 
 		<div class="flex flex-wrap justify-between gap-14">
@@ -19,7 +19,7 @@
 						</li>
 						<li>
 							<a href="https://www.instagram.com/actuallyalecc/" target="_blank">
-								Vidhu Venugopal <ExternalLink class="mb-1" size={15} />
+								Vidhyuth Venugopal <ExternalLink class="mb-1" size={15} />
 							</a>
 						</li>
 						<li>
