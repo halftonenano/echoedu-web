@@ -24,7 +24,7 @@
 		open = false;
 	});
 
-	export let open = true;
+	export let open = false;
 
 	const debounce = (fn: any) => {
 		let frame: number;
