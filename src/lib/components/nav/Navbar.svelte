@@ -1,13 +1,11 @@
 <script lang="ts">
 	import { onNavigate } from '$app/navigation';
-	import { page } from '$app/stores';
 	import { pb, user } from '$lib/pocketbase';
 	import { cn } from '$lib/utils';
 	import { onMount } from 'svelte';
 	import { quadOut } from 'svelte/easing';
 	import { fly, scale } from 'svelte/transition';
 	import './hamburgers.css';
-	import { Home } from 'lucide-svelte';
 
 	let isTutor = false;
 
@@ -66,7 +64,8 @@
 			</span>
 		</button>
 
-		<a href={$user ? '/book' : '/'} class="text-xl font-bold">ECHOEDU</a>
+		<!-- <a href={$user ? '/book' : '/'} class="text-xl font-bold">ECHOEDU</a> -->
+		<a href="/" class="text-xl font-bold">ECHOEDU</a>
 	</div>
 
 	{#if open}
@@ -74,7 +73,6 @@
 			<div
 				class="w-max-md -mt-[10vh] flex h-full flex-col items-center justify-center md:mt-0 md:flex-row md:flex-wrap"
 			>
-
 				<a href="/book" class="nav-item text-center">Book</a>
 				{#if isTutor}
 					<a href="/tutoring" class="nav-item text-center">Tutoring</a>
@@ -97,7 +95,7 @@
 					{/if}
 				</a>
 
-				<a href="/" class="nav-item mt-5 md:mt-0"><Home class='mx-auto' /></a>
+				<!-- <a href="/" class="nav-item mt-5 md:mt-0"><Home class='mx-auto' /></a> -->
 			</div>
 
 			<div
