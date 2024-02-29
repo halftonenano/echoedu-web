@@ -69,7 +69,7 @@
 	</div>
 
 	{#if open}
-		<div transition:fly={{ y: -50 }} class="h-screen bg-[#959CFF] pt-5 shadow-lg md:h-fit">
+		<div transition:fly={{ y: -50 }} class="h-screen bg-[#959CFF] py-5 shadow-lg md:h-fit">
 			<div
 				class="w-max-md -mt-[10vh] flex h-full flex-col items-center justify-center md:mt-0 md:flex-row md:flex-wrap"
 			>
@@ -97,11 +97,6 @@
 
 				<!-- <a href="/" class="nav-item mt-5 md:mt-0"><Home class='mx-auto' /></a> -->
 			</div>
-
-			<div
-				class="mt-7 hidden border md:block"
-				transition:scale={{ duration: 500, easing: quadOut, opacity: 1 }}
-			/>
 		</div>
 	{/if}
 </div>
@@ -112,7 +107,7 @@
 			no-repeat right bottom / 0 var(--bg-h);
 		transition: background-size 350ms;
 		--bg-h: 100%;
-		@apply w-64 px-2 py-2 text-2xl font-bold text-[#09090B] md:w-fit md:px-7;
+		@apply w-64 px-2 py-2 text-xl font-bold text-[#09090B] md:w-fit md:px-7;
 	}
 	.nav-item:where(:hover, :focus-visible) {
 		background-size: 100% var(--bg-h);

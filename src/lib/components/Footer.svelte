@@ -18,12 +18,12 @@
 							</a>
 						</li>
 						<li>
-							<a href="https://www.instagram.com/actuallyalecc/" target="_blank">
+							<a href="https://vidhusvilla.vercel.app/" target="_blank">
 								Vidhyuth Venugopal <ExternalLink class="mb-1" size={15} />
 							</a>
 						</li>
 						<li>
-							<a href="https://vidhusvilla.vercel.app/" target="_blank">
+							<a href="https://www.instagram.com/actuallyalecc/" target="_blank">
 								Alexander Bonev <ExternalLink class="mb-1" size={15} />
 							</a>
 						</li>
