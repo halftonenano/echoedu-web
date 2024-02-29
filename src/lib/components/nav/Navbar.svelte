@@ -7,6 +7,7 @@
 	import { quadOut } from 'svelte/easing';
 	import { fly, scale } from 'svelte/transition';
 	import './hamburgers.css';
+	import { Home } from 'lucide-svelte';
 
 	let isTutor = false;
 
@@ -71,39 +72,20 @@
 	{#if open}
 		<div transition:fly={{ y: -50 }} class="h-screen bg-[#959CFF] pt-5 shadow-lg md:h-fit">
 			<div
-				class="w-max-md -mt-[10vh] flex h-full flex-col items-center justify-center md:mt-0 md:flex-row"
+				class="w-max-md -mt-[10vh] flex h-full flex-col items-center justify-center md:mt-0 md:flex-row md:flex-wrap"
 			>
-				<a
-					href="/book"
-					class={cn('nav-item text-center', $page.route?.id?.startsWith('/book') && 'active')}
-				>
-					Book
-				</a>
+
+				<a href="/book" class="nav-item text-center">Book</a>
 				{#if isTutor}
-					<a
-						href="/tutoring"
-						class={cn('nav-item text-center', $page.route?.id === '/tutoring' && 'active')}
-					>
-						Tutoring
-					</a>
-					<a
-						href="/tutoring/schedule"
-						class={cn('nav-item text-center', $page.route?.id === '/tutoring/schedule' && 'active')}
-					>
-						Schedule
-					</a>
+					<a href="/tutoring" class="nav-item text-center">Tutoring</a>
+					<a href="/tutoring/schedule" class="nav-item text-center">Schedule</a>
 				{:else}
-					<a
-						href="/tutoring/signup"
-						class={cn('nav-item text-center', $page.route?.id === '/tutoring' && 'active')}
-					>
-						Sign up as a tutor
-					</a>
+					<a href="/tutoring/signup" class="nav-item text-center">Sign up as a tutor</a>
 				{/if}
 
 				<a
 					href={$user ? '/account' : '/signin'}
-					class="mt-5 rounded-md bg-white px-5 py-3 shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-lg md:ml-4 md:mt-0"
+					class="mt-5 rounded-md bg-white px-5 py-3 shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-lg md:mx-4 md:mt-0"
 				>
 					{#if $user}
 						<div class="flex items-center gap-3">
@@ -114,6 +96,8 @@
 						Sign in
 					{/if}
 				</a>
+
+				<a href="/" class="nav-item mt-5 md:mt-0"><Home class='mx-auto' /></a>
 			</div>
 
 			<div
