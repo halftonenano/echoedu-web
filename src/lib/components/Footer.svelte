@@ -3,11 +3,11 @@
 </script>
 
 <footer class="border-t bg-zinc-50 p-7">
-	<div class="mx-auto my-5 flex max-w-7xl justify-between gap-20 md:flex-row flex-col">
+	<div class="mx-auto my-5 flex max-w-7xl flex-col justify-between gap-20 md:flex-row">
 		<div class="text-4xl font-bold text-[#383838]">EchoEDU</div>
 
 		<div class="flex flex-wrap justify-between gap-14">
-			<div class="flex gap-3 md:flex-row flex-col">
+			<div class="flex flex-col gap-3 md:flex-row">
 				<Code2 />
 				<div>
 					<h2>Built by Continuity Labs</h2>
@@ -35,12 +35,15 @@
 				<h2>EchoEDU</h2>
 				<ul>
 					<li>
+						<a href="/">Homepage</a>
+					</li>
+					<li>
 						<a href="/charities">Charities</a>
 					</li>
 					<li>
-						<a href="https://www.instagram.com/echoedu.npo/" target="_blank"
-							>Instagram <ExternalLink class="mb-1" size={15} /></a
-						>
+						<a href="https://www.instagram.com/echoedu.npo/" target="_blank">
+							Instagram <ExternalLink class="mb-1" size={15} />
+						</a>
 					</li>
 				</ul>
 			</div>
