@@ -1,10 +1,22 @@
-<script>
-	import Typewriter from 'svelte-typewriter';
-	import { ChevronDown, Github, GithubIcon, Link, LucideGithub } from 'lucide-svelte';
-	import BookingInterface from '$lib/components/booking/BookingInterface.svelte';
-	import BackgroundSlant from '$lib/components/BackgroundSlant.svelte';
-	import PageFormat from '$lib/components/PageFormat.svelte';
+<script lang="ts">
 	import * as HoverCard from '$lib/components/ui/hover-card';
+	import 'locomotive-scroll/locomotive-scroll.css';
+	import { ChevronDown, Github, Link } from 'lucide-svelte';
+	import { onDestroy, onMount } from 'svelte';
+
+	let scroll: any;
+
+	onMount(async () => {
+		// @ts-ignore
+		const LocomotiveScroll = (await import('locomotive-scroll')).default;
+		scroll = new LocomotiveScroll({
+			smooth: true,
+			smartphone: { direction: 'vertical', smooth: true }
+		});
+	});
+	onDestroy(() => {
+		scroll?.destroy();
+	});
 </script>
 
 <svelte:head>
@@ -39,7 +51,8 @@
 			<div class="h-16 w-full"></div>
 		</div>
 		<div class="grid w-full place-items-center">
-			<a href="/signin"
+			<a
+				href="/signin"
 				class="rounded-xl border-4 border-[#959CFF] bg-white p-4 px-6 text-4xl font-bold text-[#383838] transition-colors duration-300 hover:border-[#646ce3] hover:bg-[#959CFF] hover:text-[#f1f1f1]"
 			>
 				Join now
@@ -76,7 +89,7 @@
 			</div>
 		</div>
 		<div class="h-16 w-full"></div>
-		<div class="mx-auto w-[90%] flex justify-between">
+		<div class="mx-auto flex w-[90%] justify-between">
 			<div class="h-fit w-[50%] rounded-lg border-y bg-white shadow-lg md:border">
 				<div
 					class="flex h-16 w-full place-items-center rounded-t-lg bg-[#959CFF] pl-4 text-4xl font-bold text-[#383838]"
@@ -89,16 +102,16 @@
 					minim eiusmod tempor Lorem duis est quis et duis cillum consequat eu. Magna proident
 					cupidatat qui est elit labore eu consequat culpa magna. In est ad labore tempor ex. Quis
 					minim qui reprehenderit ipsum anim sit nostrud amet sit. Consequat ad minim eiusmod tempor
-					Lorem duis est quis et duis cillum consequat eu. Magna proident cupidatat qui est elit labore eu consequat culpa magna. In est ad labore
-					tempor ex. Quis minim qui reprehenderit ipsum anim sit nostrud amet sit. Consequat ad
-					minim eiusmod tempor Lorem duis est quis et duis cillum consequat eu. Magna proident
-					cupidatat qui est elit labore eu consequat culpa magna. In est ad labore tempor ex. Quis
-					minim qui reprehenderit ipsum anim sit nostrud amet sit. Consequat ad minim eiusmod tempor
-					Lorem duis est quis et duis cillum consequat eu.
-					
+					Lorem duis est quis et duis cillum consequat eu. Magna proident cupidatat qui est elit
+					labore eu consequat culpa magna. In est ad labore tempor ex. Quis minim qui reprehenderit
+					ipsum anim sit nostrud amet sit. Consequat ad minim eiusmod tempor Lorem duis est quis et
+					duis cillum consequat eu. Magna proident cupidatat qui est elit labore eu consequat culpa
+					magna. In est ad labore tempor ex. Quis minim qui reprehenderit ipsum anim sit nostrud
+					amet sit. Consequat ad minim eiusmod tempor Lorem duis est quis et duis cillum consequat
+					eu.
 				</div>
 			</div>
-			<div class="h-fit w-[40%] rounded-lg border-y bg-white shadow-lg md:border mt-16 mr-4">
+			<div class="mr-4 mt-16 h-fit w-[40%] rounded-lg border-y bg-white shadow-lg md:border">
 				<img src={'/assets/tutoringpicture.jpeg'} alt="Alex" class="rounded-xl" />
 			</div>
 		</div>
@@ -114,27 +127,25 @@
 					<div class="w-64 text-center text-2xl font-bold">
 						<HoverCard.Root>
 							<HoverCard.Trigger>
-								<div class="hover:scale-125 transition-transform duration-300">
-									Gene Iwasaki
-								</div>
+								<div class="transition-transform duration-300 hover:scale-125">Gene Iwasaki</div>
 							</HoverCard.Trigger>
 							<HoverCard.Content>
 								<div class="flex flex-col gap-2 tracking-wide">
-									<div class="w-full text-xl font-bold">
-										Gene Iwasaki
-									</div>
+									<div class="w-full text-xl font-bold">Gene Iwasaki</div>
 									<div class="flex justify-between">
-										<div class="w-16 mx-auto aspect-square rounded-full bg-red-500">
-											<img src={'/assets/genepicture.png'} alt="Gene" class="w-16 aspect-square rounded-full" />
+										<div class="mx-auto aspect-square w-16 rounded-full bg-red-500">
+											<img
+												src={'/assets/genepicture.png'}
+												alt="Gene"
+												class="aspect-square w-16 rounded-full"
+											/>
 										</div>
-										<div class="flex justify-evenly flex-1 pl-10 place-items-center scale-150">
+										<div class="flex flex-1 scale-150 place-items-center justify-evenly pl-10">
 											<a href="https://github.com/halftonenano" class="w-12"><Github /></a>
 											<a href="https://www.instagram.com/genethegreatish/" class="w-12"><Link /></a>
 										</div>
 									</div>
-									<div class="text-[#383838] text-lg mt-4">
-										Fullstack Developer
-									</div>
+									<div class="mt-4 text-lg text-[#383838]">Fullstack Developer</div>
 								</div>
 							</HoverCard.Content>
 						</HoverCard.Root>
@@ -144,26 +155,28 @@
 					<div class="w-64 text-center text-2xl font-bold">
 						<HoverCard.Root>
 							<HoverCard.Trigger>
-								<div class="hover:scale-125 transition-transform duration-300">
-									Alexander Bonev
-								</div>
+								<div class="transition-transform duration-300 hover:scale-125">Alexander Bonev</div>
 							</HoverCard.Trigger>
 							<HoverCard.Content>
 								<div class="flex flex-col gap-2 tracking-wide">
-									<div class="w-full text-xl font-bold">
-										Alexander Bonev
-									</div>
+									<div class="w-full text-xl font-bold">Alexander Bonev</div>
 									<div class="flex justify-between">
-										<div class="w-16 mx-auto aspect-square rounded-full bg-red-500 grid place-items-center">
-											<img src={'/assets/alexpicture.jpg'} alt="Alex" class="w-16 aspect-square rounded-full" />
+										<div
+											class="mx-auto grid aspect-square w-16 place-items-center rounded-full bg-red-500"
+										>
+											<img
+												src={'/assets/alexpicture.jpg'}
+												alt="Alex"
+												class="aspect-square w-16 rounded-full"
+											/>
 										</div>
-										<div class="flex justify-evenly flex-1 pl-10 place-items-center scale-150">
+										<div class="flex flex-1 scale-150 place-items-center justify-evenly pl-10">
 											<a href="https://github.com/Alex-Bonev" class="w-12"><Github /></a>
 											<a href="https://www.instagram.com/actuallyalecc/" class="w-12"><Link /></a>
 										</div>
 									</div>
-									<div class="text-[#383838] text-base">
-										Fullstack Developer<br/>Robotics President<br/>Leigh Interact President
+									<div class="text-base text-[#383838]">
+										Fullstack Developer<br />Robotics President<br />Leigh Interact President
 									</div>
 								</div>
 							</HoverCard.Content>
@@ -174,26 +187,26 @@
 					<div class="w-64 text-center text-2xl font-bold">
 						<HoverCard.Root>
 							<HoverCard.Trigger>
-								<div class="hover:scale-125 transition-transform duration-300">
-									Vidhu Venugopal
-								</div>
+								<div class="transition-transform duration-300 hover:scale-125">Vidhu Venugopal</div>
 							</HoverCard.Trigger>
 							<HoverCard.Content>
 								<div class="flex flex-col gap-2 tracking-wide">
-									<div class="w-full text-xl font-bold">
-										Vidhu Venugopal
-									</div>
+									<div class="w-full text-xl font-bold">Vidhu Venugopal</div>
 									<div class="flex justify-between">
-										<div class="w-16 mx-auto aspect-square rounded-full bg-red-500">
-											<img src={'/assets/vidhupicture.jpeg'} alt="Vidhu" class="w-16 aspect-square rounded-full" />
+										<div class="mx-auto aspect-square w-16 rounded-full bg-red-500">
+											<img
+												src={'/assets/vidhupicture.jpeg'}
+												alt="Vidhu"
+												class="aspect-square w-16 rounded-full"
+											/>
 										</div>
-										<div class="flex justify-evenly flex-1 pl-10 place-items-center scale-150">
+										<div class="flex flex-1 scale-150 place-items-center justify-evenly pl-10">
 											<a href="https://github.com/vidhu-vv" class="w-12"><Github /></a>
 											<a href="https://vidhusvilla.vercel.app/" class="w-12"><Link /></a>
 										</div>
 									</div>
-									<div class="text-[#383838] text-lg mt-4">
-										Fullstack Developer <br/> Math Animator <br/> Blogger
+									<div class="mt-4 text-lg text-[#383838]">
+										Fullstack Developer <br /> Math Animator <br /> Blogger
 									</div>
 								</div>
 							</HoverCard.Content>

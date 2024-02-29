@@ -87,7 +87,7 @@
 <CurrentSession />
 
 <div class="bg-white p-5 shadow-lg md:rounded-lg md:border">
-	<div class="flex md:gap-5 md:flex-row flex-col items-center gap-3">
+	<div class="flex flex-col items-center gap-3 md:flex-row md:gap-5">
 		<TeacherSelector bind:selectedTeacherId />
 		<CourseSelector bind:selectedCourseId />
 	</div>
@@ -100,7 +100,7 @@
 			{#each groupedSessions as day}
 				<div class="rounded-sm md:border">
 					<div
-						class="cursor-default md:px-5 pb-2 pt-3 md:text-lg font-bold transition-colors hover:bg-zinc-100"
+						class="cursor-default pb-2 pt-3 font-bold transition-colors hover:bg-zinc-100 md:px-5 md:text-lg"
 					>
 						{dayjs(day.date).format('dddd, MMMM D')}
 					</div>
@@ -108,7 +108,7 @@
 					<ul class="">
 						{#if day.sessions.length === 0}
 							<li
-								class="cursor-default px-5 py-2 md:pl-14 italic text-zinc-400 transition-colors hover:bg-zinc-100 md:text-base text-sm"
+								class="cursor-default px-5 py-2 text-sm italic text-zinc-400 transition-colors hover:bg-zinc-100 md:pl-14 md:text-base"
 							>
 								{#if selectedTeacherId === '' && selectedCourseId === ''}
 									No available sessions on this day
@@ -120,40 +120,36 @@
 
 						{#each day.sessions as session (session.id)}
 							<li
-								class="flex items-center justify-between gap-3 px-5 py-2 md:pl-14 transition-colors hover:bg-zinc-100 md:text-base text-sm"
+								class="flex items-center justify-between gap-3 px-5 py-2 text-sm transition-colors hover:bg-zinc-100 md:pl-14 md:text-base"
 							>
-								<div class="flex items-center gap-3 w-full">
+								<div class="flex w-full items-center gap-3">
 									{#if session.expand}
-										<div class="flex items-center gap-3 flex-wrap w-full">
-											<div class='w-full md:w-fit lg:w-fit'>
+										<div class="flex w-full flex-wrap items-center gap-1 md:gap-3">
+											<div class="w-full md:w-fit lg:w-fit">
 												{session.expand.tutor.name}
-											</div>	
+											</div>
 											{#if session.expand.tutor.expand}
 												{#if session.expand.tutor.isNHS}
-													<div class="scale-75 -my-1.5 -mx-5 sm:scale-[.85] sm:-mx-3 md:scale-100 md:mx-0">
-														<NhsBadge />
-													</div>
+													<NhsBadge />
 												{/if}
 												{#each session.expand.tutor.expand.classes as takenclass}
 													{#if (selectedTeacherId === '' || takenclass.teacher === selectedTeacherId) && (selectedCourseId === '' || takenclass.course === selectedCourseId)}
-													<div class="scale-75 -my-1.5 -mx-5 sm:scale-[.85] sm:-mx-3 md:scale-100 md:mx-0">
 														<TeacherBadge
-																name={takenclass.teacherName}
-																course={takenclass.courseName}
-															/>
-													</div>	
+															name={takenclass.teacherName}
+															course={takenclass.courseName}
+														/>
 													{/if}
 												{/each}
-												{/if}
+											{/if}
 										</div>
-											<div class="w-36 text-right font-bold text-md">
-												{#if dayjs(session.datetime).format("HH:mm")=="10:05"}
-													Tutorial
-												{:else if dayjs(session.datetime).format("HH:mm")=="15:05"}
-													During 7th
-												{:else}
-													After 7th
-												{/if}
+										<div class="text-md w-36 text-right font-bold">
+											{#if dayjs(session.datetime).format('HH:mm') == '10:05'}
+												Tutorial
+											{:else if dayjs(session.datetime).format('HH:mm') == '15:05'}
+												During 7th
+											{:else}
+												After 7th
+											{/if}
 										</div>
 									{/if}
 								</div>
