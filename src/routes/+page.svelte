@@ -58,7 +58,7 @@
 		>
 			<a href="/book">
 				<div class="hover-slide -my-0.5 px-10 py-5 text-center font-bold text-white md:text-lg">
-					View Avaiable Tutoring Sessions →
+					View Available Tutoring Sessions →
 				</div>
 			</a>
 		</div>
