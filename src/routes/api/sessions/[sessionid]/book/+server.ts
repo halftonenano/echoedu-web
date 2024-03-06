@@ -1,5 +1,5 @@
 import { pb } from '$lib/pocketbase.js';
-import { createNotifications } from '$lib/server/createNotification.js';
+import { createNotifications } from '$lib/server/notifications.js';
 import { initAdminPb } from '$lib/server/pb-admin.js';
 import { NotificationsReasonOptions } from '$lib/types/db.js';
 import type { ExpandedSession } from '$lib/types/types.js';

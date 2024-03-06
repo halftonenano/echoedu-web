@@ -28,3 +28,15 @@ export async function createNotifications(
 		}
 	} catch {}
 }
+
+export async function deleteAssociatedNotifications(admin: TypedPocketBase, sessionid: string) {
+	const notifications = await admin
+		.collection('notifications')
+		.getFullList({ filter: `session="${sessionid}"` });
+
+	for (const notification of notifications) {
+		try {
+			await admin.collection('notifications').delete(notification.id);
+		} catch {}
+	}
+}

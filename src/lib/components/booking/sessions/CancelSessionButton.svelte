@@ -6,10 +6,12 @@
 
 	export let sessionid: string;
 	let loading = false;
+
+	export let onFinish: (() => void) | undefined;
 </script>
 
 <Button
-	class="flex items-center gap-2 pr-2.5"
+	class="-my-1 flex items-center gap-2 pr-2.5"
 	size="sm"
 	variant="outline"
 	disabled={loading}
@@ -26,7 +28,12 @@
 		}
 		if (response.success) {
 			toast.success('Session cancelled!');
-			await refreshCurrentSession();
+
+			if (!onFinish) {
+				await refreshCurrentSession();
+			} else {
+				onFinish();
+			}
 		}
 	}}
 >

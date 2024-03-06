@@ -1,6 +1,7 @@
 import { pb } from '$lib/pocketbase.js';
+import { createNotifications, deleteAssociatedNotifications } from '$lib/server/notifications';
 import { initAdminPb } from '$lib/server/pb-admin.js';
-import { NotificationsReasonOptions, type NotificationsRecord } from '$lib/types/db.js';
+import { NotificationsReasonOptions } from '$lib/types/db.js';
 import type { ExpandedSession } from '$lib/types/types';
 import { json } from '@sveltejs/kit';
 
@@ -20,19 +21,20 @@ export async function POST({ params: { sessionid }, request }) {
 	await admin.collection('sessions').update(sessionid, { tutee: '' });
 
 	try {
-		// look up tutor's phone
-		const phone = await admin
-			.collection('phones')
-			.getFirstListItem(`user="${session.expand?.tutor.user}"`);
-		// create a notification record to be handled by background services
-		await admin.collection('notifications').create({
-			user: session.expand?.tutor.user,
-			session: session.id,
-			reason: NotificationsReasonOptions['booking/canceled'],
-			datetime: new Date().toISOString(),
-			phone: phone.id,
-			tutee: false
-		} satisfies NotificationsRecord);
+		await deleteAssociatedNotifications(admin, session.id);
+
+		await createNotifications(
+			admin,
+			pb.authStore.model?.id === session.tutee ? session.expand!.tutor.user : session.tutee,
+			session.id,
+			pb.authStore.model?.id !== session.tutee,
+			[
+				{
+					reason: NotificationsReasonOptions['booking/canceled'],
+					datetime: new Date().toISOString()
+				}
+			]
+		);
 	} catch (e) {
 		console.log(e);
 	}

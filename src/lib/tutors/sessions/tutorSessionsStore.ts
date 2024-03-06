@@ -6,9 +6,9 @@ export type TutorViewSession = SessionsResponse<{ tutee: UsersResponse }>;
 
 export const tutorSessions = writable<TutorViewSession[]>([]);
 
-refreshCurrentSession();
+refreshTutoringSessionsList();
 
-export async function refreshCurrentSession() {
+export async function refreshTutoringSessionsList() {
 	tutorSessions.set(
 		await pb
 			.collection('sessions')

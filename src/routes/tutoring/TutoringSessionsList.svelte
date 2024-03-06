@@ -1,15 +1,17 @@
 <script lang="ts">
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { tutorSessions, type TutorViewSession } from '$lib/tutors/sessions/tutorSessionsStore';
+	import {
+		refreshTutoringSessionsList,
+		tutorSessions,
+		type TutorViewSession
+	} from '$lib/tutors/sessions/tutorSessionsStore';
 	import dayjs from 'dayjs';
 	import { Loader2, X } from 'lucide-svelte';
 	import { pb } from '$lib/pocketbase';
-
+	import CancelSessionButton from '$lib/components/booking/sessions/CancelSessionButton.svelte';
 
 	let loading = false;
 	let groupedSessions: { date: string; sessions: TutorViewSession[] }[] = [];
-
-	$: filteredSessions = $tutorSessions.filter((s) => true);
 
 	$: {
 		if ($tutorSessions.length > 0) {
@@ -32,7 +34,7 @@
 				i++;
 			}
 
-			for (let item of filteredSessions) {
+			for (let item of $tutorSessions) {
 				const date = dayjs(item.datetime).startOf('day').toISOString();
 				let dateIndex = groupedSessions.findIndex((feedDay) => feedDay.date === date);
 
@@ -47,15 +49,6 @@
 			groupedSessions = groupedSessions;
 		}
 	}
-
-	$: console.log($tutorSessions);
-
-	async function cancelSession(session: any){
-		console.log(session)
-		await pb.collection('sessions').delete(session);
-		window.location.reload();
-	}
-
 </script>
 
 <div>
@@ -103,7 +96,10 @@
 									{/if}
 								</div>
 
-                <Button on:click={()=>{cancelSession(session.id)}} class='p-0 m-0 h-fit' variant="link"><X size={18} /></Button>
+								<CancelSessionButton
+									sessionid={session.id}
+									onFinish={refreshTutoringSessionsList}
+								/>
 							</li>
 						{/each}
 					</ul>
