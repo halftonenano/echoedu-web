@@ -23,8 +23,7 @@
 		<p class="mb-5">If you are in NHS you will be auto approved!</p>
 
 		<Button
-			class="flex w-full items-center justify-center gap-2"
-			variant="outline"
+			class="flex w-full items-center justify-center gap-2 font-bold"
 			on:click={async () => {
 				processing = true;
 
