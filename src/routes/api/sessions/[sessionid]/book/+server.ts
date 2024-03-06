@@ -1,8 +1,10 @@
 import { pb } from '$lib/pocketbase.js';
+import { createNotifications } from '$lib/server/createNotification.js';
 import { initAdminPb } from '$lib/server/pb-admin.js';
-import type { NotificationsReasonOptions, NotificationsRecord } from '$lib/types/db.js';
+import { NotificationsReasonOptions } from '$lib/types/db.js';
 import type { ExpandedSession } from '$lib/types/types.js';
 import { json } from '@sveltejs/kit';
+import dayjs from 'dayjs';
 
 export async function POST({ params: { sessionid }, request }) {
 	pb.authStore.loadFromCookie(request.headers.get('Cookie') || '');
@@ -26,19 +28,36 @@ export async function POST({ params: { sessionid }, request }) {
 		await admin.collection('sessions').update(sessionid, { tutee: pb.authStore.model?.id });
 
 		try {
-			// look up tutor's phone
-			const phone = await admin
-				.collection('phones')
-				.getFirstListItem(`user="${session.expand?.tutor.user}"`);
-			// create a notification record to be handled by background services
-			await admin.collection('notifications').create({
-				user: session.expand?.tutor.user,
-				session: session.id,
-				reason: 'booking/new' as NotificationsReasonOptions,
-				datetime: new Date().toISOString(),
-				phone: phone.id,
-				tutee: false
-			} satisfies NotificationsRecord);
+			await createNotifications(admin, session.expand!.tutor.user, session.id, false, [
+				{ reason: NotificationsReasonOptions['booking/new'], datetime: new Date().toISOString() },
+				{
+					reason: NotificationsReasonOptions['reminder/morning'],
+					datetime: dayjs(session.datetime)
+						.set('hour', 8)
+						.set('minute', 30)
+						.set('second', 0)
+						.toISOString()
+				},
+				{
+					reason: NotificationsReasonOptions['reminder/5mins'],
+					datetime: dayjs(session.datetime).add(-5, 'minutes').toISOString()
+				}
+			]);
+
+			await createNotifications(admin, pb.authStore.model?.id, session.id, true, [
+				{
+					reason: NotificationsReasonOptions['reminder/morning'],
+					datetime: dayjs(session.datetime)
+						.set('hour', 8)
+						.set('minute', 30)
+						.set('second', 0)
+						.toISOString()
+				},
+				{
+					reason: NotificationsReasonOptions['reminder/5mins'],
+					datetime: dayjs(session.datetime).add(-5, 'minutes').toISOString()
+				}
+			]);
 		} catch (e) {
 			console.log(e);
 		}
