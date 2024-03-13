@@ -34,7 +34,16 @@
 		}
 
 		// @ts-ignore
-		let dateTime = dayjs(dayjs(value).add(8, 'h')).format('YYYY-MM-DD') + ' ' + realTime + '.123Z';
+		let dateTime = dayjs(value)
+			.set(
+				'hour',
+				selectedTime === 'During Tutorial' ? 10 : selectedTime === 'During 7th Period' ? 2 : 3
+			)
+			.set(
+				'minute',
+				selectedTime === 'During Tutorial' ? 5 : selectedTime === 'During 7th Period' ? 25 : 30
+			)
+			.toISOString();
 
 		const tutorChad = await pb
 			.collection('tutors')
