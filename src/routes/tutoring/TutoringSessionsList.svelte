@@ -10,6 +10,7 @@
 	import { pb } from '$lib/pocketbase';
 	import CancelSessionButton from '$lib/components/booking/sessions/CancelSessionButton.svelte';
 	import { onMount } from 'svelte';
+	import { sleep } from '$lib/utils';
 
 	let loading = false;
 	let groupedSessions: { date: string; sessions: TutorViewSession[] }[] = [];
@@ -103,7 +104,10 @@
 
 								<CancelSessionButton
 									sessionid={session.id}
-									onFinish={refreshTutoringSessionsList}
+									onFinish={async () => {
+										await sleep(250);
+										refreshTutoringSessionsList();
+									}}
 								/>
 							</li>
 						{/each}
