@@ -37,7 +37,7 @@
 		let dateTime = dayjs(value)
 			.set(
 				'hour',
-				selectedTime === 'During Tutorial' ? 10 : selectedTime === 'During 7th Period' ? 2 : 3
+				selectedTime === 'During Tutorial' ? 10 : selectedTime === 'During 7th Period' ? 14 : 15
 			)
 			.set(
 				'minute',
