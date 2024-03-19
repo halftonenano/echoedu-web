@@ -14,7 +14,6 @@
 
 	let selectedTime = '';
 	let selectedLocation = '';
-	let realTime = '22:25:00';
 
 	onMount(() => {
 		let day = dayjs().add(1, 'day');
@@ -25,14 +24,6 @@
 	});
 
 	async function createRecord() {
-		if (selectedTime == 'During Tutorial') {
-			realTime = '18:05:00';
-		} else if (selectedTime == 'During 7th Period') {
-			realTime = '22:25:00';
-		} else if (selectedTime) {
-			realTime = '23:30:00';
-		}
-
 		// @ts-ignore
 		let dateTime = dayjs(value)
 			.set(

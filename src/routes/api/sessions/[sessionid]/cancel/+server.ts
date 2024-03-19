@@ -9,32 +9,59 @@ export async function POST({ params: { sessionid }, request }) {
 	pb.authStore.loadFromCookie(request.headers.get('Cookie') || '');
 	const admin = await initAdminPb();
 
+	let sessionDeleted = false;
+
 	let session: ExpandedSession | null = null;
 	try {
 		// Check if they have session
 		session = await pb.collection('sessions').getOne(sessionid, { expand: 'tutor' });
 	} catch {}
 	if (!session) return json({ error: 'Session does not exist' }, { status: 404 });
-	if (session.tutee !== pb.authStore.model?.id)
-		return json({ error: 'You have not booked this session' }, { status: 403 });
+	if (session.tutee !== pb.authStore.model?.id) {
+		if (session.expand!.tutor.user !== pb.authStore.model?.id) {
+			return json({ error: 'You have not booked this session' }, { status: 403 });
+		} else {
+			sessionDeleted = true;
+			await admin.collection('sessions').delete(sessionid);
+		}
+	}
 
-	await admin.collection('sessions').update(sessionid, { tutee: '' });
+	if (!sessionDeleted) {
+		await admin.collection('sessions').update(sessionid, { tutee: '' });
+	}
 
 	try {
 		await deleteAssociatedNotifications(admin, session.id);
 
-		await createNotifications(
-			admin,
-			pb.authStore.model?.id === session.tutee ? session.expand!.tutor.user : session.tutee,
-			session.id,
-			pb.authStore.model?.id !== session.tutee,
-			[
-				{
-					reason: NotificationsReasonOptions['booking/canceled'],
-					datetime: new Date().toISOString()
-				}
-			]
-		);
+		if (pb.authStore.model?.id === session.tutee) {
+			await createNotifications(
+				admin,
+				session.expand!.tutor.user,
+				session.id,
+				pb.authStore.model?.id !== session.tutee,
+				[
+					{
+						reason: NotificationsReasonOptions['booking/canceled'],
+						datetime: new Date().toISOString()
+					}
+				]
+			);
+		} else {
+			if (session.tutee !== '') {
+				await createNotifications(
+					admin,
+					session.tutee,
+					session.id,
+					pb.authStore.model?.id !== session.tutee,
+					[
+						{
+							reason: NotificationsReasonOptions['booking/canceled'],
+							datetime: new Date().toISOString()
+						}
+					]
+				);
+			}
+		}
 	} catch (e) {
 		console.log(e);
 	}

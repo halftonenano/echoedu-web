@@ -6,9 +6,10 @@
 		type TutorViewSession
 	} from '$lib/tutors/sessions/tutorSessionsStore';
 	import dayjs from 'dayjs';
-	import { Loader2, X } from 'lucide-svelte';
+	import { ExternalLink, Loader2, MoveUpRight, X } from 'lucide-svelte';
 	import { pb } from '$lib/pocketbase';
 	import CancelSessionButton from '$lib/components/booking/sessions/CancelSessionButton.svelte';
+	import { onMount } from 'svelte';
 
 	let loading = false;
 	let groupedSessions: { date: string; sessions: TutorViewSession[] }[] = [];
@@ -49,6 +50,10 @@
 			groupedSessions = groupedSessions;
 		}
 	}
+
+	onMount(() => {
+		refreshTutoringSessionsList();
+	});
 </script>
 
 <div>
@@ -105,6 +110,9 @@
 					</ul>
 				</div>
 			{/each}
+			<Button href="/tutoring/schedule" variant="secondary">
+				Schedule more tutoring sessions <ExternalLink class="ml-2" size={16} />
+			</Button>
 		{/if}
 	</div>
 </div>
