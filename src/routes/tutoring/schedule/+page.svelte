@@ -32,7 +32,7 @@
 			selectedTime = '23:30:00';
 		}
 		// console.log(selectedLocation)
-		let dateTime = dayjs((dayjs(value).add(8, 'h')).add(1, 'd')).format('YYYY-MM-DD') + ' ' + selectedTime + '.123Z';
+		let dateTime = dayjs((dayjs(value).add(8, 'h')).format('YYYY-MM-DD') + ' ' + selectedTime + '.123Z';
 
 		const tutorChad = await pb
 			.collection('tutors')
