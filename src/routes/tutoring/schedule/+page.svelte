@@ -24,17 +24,15 @@
 	});
 
 	async function createRecord() {
-		// @ts-ignore
-		let dateTime = dayjs(value)
-			.set(
-				'hour',
-				selectedTime === 'During Tutorial' ? 10 : selectedTime === 'During 7th Period' ? 14 : 15
-			)
-			.set(
-				'minute',
-				selectedTime === 'During Tutorial' ? 5 : selectedTime === 'During 7th Period' ? 25 : 30
-			)
-			.toISOString();
+		if (selectedTime == 'During Tutorial') {
+			selectedTime = '18:05:00';
+		} else if (selectedTime == 'During 7th Period') {
+			selectedTime = '22:25:00';
+		} else if (selectedTime) {
+			selectedTime = '23:30:00';
+		}
+		// console.log(selectedLocation)
+		let dateTime = dayjs((dayjs(value).add(8, 'h')).add(1, 'd')).format('YYYY-MM-DD') + ' ' + realTime + '.123Z';
 
 		const tutorChad = await pb
 			.collection('tutors')
