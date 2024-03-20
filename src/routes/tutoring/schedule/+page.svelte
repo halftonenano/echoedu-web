@@ -25,14 +25,14 @@
 
 	async function createRecord() {
 		if (selectedTime == 'During Tutorial') {
-			selectedTime = '18:05:00';
+			selectedTime = '17:05:00';
 		} else if (selectedTime == 'During 7th Period') {
-			selectedTime = '22:25:00';
+			selectedTime = '21:25:00';
 		} else if (selectedTime) {
-			selectedTime = '23:30:00';
+			selectedTime = '22:30:00';
 		}
 		// console.log(selectedLocation)
-		let dateTime = dayjs((dayjs(value).add(7, 'h')).format('YYYY-MM-DD') + ' ' + selectedTime + '.123Z');
+		let dateTime = dayjs((dayjs(value).add(8, 'h')).format('YYYY-MM-DD') + ' ' + selectedTime + '.123Z');
 
 		const tutorChad = await pb
 			.collection('tutors')
