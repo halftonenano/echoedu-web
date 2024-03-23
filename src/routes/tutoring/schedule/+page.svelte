@@ -15,14 +15,6 @@
 	let selectedTime = '';
 	let selectedLocation = '';
 
-	onMount(() => {
-		let day = dayjs().add(1, 'day');
-		while (day.day() === 0 || day.day() === 6) {
-			day.add(1, 'day');
-		}
-		value = parseDate(day.format('YYYY-MM-DD'));
-	});
-
 	async function createRecord() {
 		if (selectedTime == 'During Tutorial') {
 			selectedTime = '17:05:00';
@@ -32,6 +24,7 @@
 			selectedTime = '22:30:00';
 		}
 		// console.log(selectedLocation)
+		// @ts-ignore
 		let dateTime = dayjs((dayjs(value).add(7, 'h')).format('YYYY-MM-DD') + ' ' + selectedTime + '.123Z');
 
 		const tutorChad = await pb
