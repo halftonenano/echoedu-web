@@ -13,3 +13,5 @@ pocketbase.exe
 /pb_data
 
 /src/routes/api/internal/temp-add-nhs
+
+bun.lockb
