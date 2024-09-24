@@ -10,6 +10,9 @@ export async function POST({ params: { sessionid }, request }) {
 	pb.authStore.loadFromCookie(request.headers.get('Cookie') || '');
 	if (!pb.authStore.model?.id) return json({ error: 'you are not signed in' }, { status: 403 });
 
+	const body = await request.json();
+	if (!body || !body.location) return json({ error: 'no location provided' }, { status: 400 });
+
 	const admin = await initAdminPb();
 	let session: ExpandedSession | null = null;
 	try {
@@ -23,9 +26,11 @@ export async function POST({ params: { sessionid }, request }) {
 		await admin
 			.collection('sessions')
 			.getFirstListItem(`datetime > @now && tutee = "${pb.authStore.model?.id}"`);
-		return json({ error: 'You already have a session booked' });
+		return json({ error: 'You can only have one session booked at a time.' });
 	} catch {
-		await admin.collection('sessions').update(sessionid, { tutee: pb.authStore.model?.id });
+		await admin
+			.collection('sessions')
+			.update(sessionid, { tutee: pb.authStore.model?.id, location: body.location });
 
 		try {
 			await createNotifications(admin, session.expand!.tutor.user, session.id, false, [

@@ -7,6 +7,7 @@
 	import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
 	import { Calendar as BitsUICalendar } from 'bits-ui';
 	import dayjs from 'dayjs';
+	import { Check } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import toast from 'svelte-french-toast';
 
@@ -24,8 +25,10 @@
 			selectedTime = '22:30:00';
 		}
 		// console.log(selectedLocation)
-		// @ts-ignore
-		let dateTime = dayjs((dayjs(value).add(7, 'h')).format('YYYY-MM-DD') + ' ' + selectedTime + '.123Z');
+		let dateTime = dayjs(
+			// @ts-ignore
+			dayjs(value).add(7, 'h').format('YYYY-MM-DD') + ' ' + selectedTime + '.123Z'
+		);
 
 		const tutorChad = await pb
 			.collection('tutors')
@@ -33,10 +36,9 @@
 		const data = {
 			tutor: tutorChad.id,
 			datetime: dateTime,
-			location: selectedLocation
 		};
 		try {
-			if (selectedLocation && dateTime) {
+			if (dateTime) {
 				await pb
 					.collection('sessions')
 					.getFirstListItem(`tutor="${tutorChad.id}" && datetime="${dateTime}"`);
@@ -58,46 +60,45 @@
 
 <PageFormat title="Scheduling Page" description="Schedule your next opening!">
 	<div class="overflow-hidden rounded-md md:border md:p-6">
-		<div class="mx-auto flex w-full flex-col gap-8">
-			<div class="flex w-full flex-col gap-5 sm:flex-col md:flex-col">
-				<div
-					class="lg:place-items-auto grid h-fit w-full place-items-center lg:grid lg:h-auto lg:w-auto"
-				>
-					<Calendar bind:value class="w-fit rounded-md border shadow-sm" {isDateUnavailable} />
-				</div>
+		<div class="flex w-full flex-col gap-5 md:flex-row">
+			<Calendar
+				bind:value
+				class="mx-auto w-fit rounded-md border shadow-sm md:mx-0"
+				{isDateUnavailable}
+			/>
 
-				<div class="flex w-full flex-wrap gap-5">
-					<div class="box">
-						<div class="box-header">Date Selected</div>
-						<div class="box-content font-bold">
-							{#if value}
-								{dayjs(dayjs(value.toString()).add(8, 'h')).format('dddd, MMMM D')}
-							{:else}
-								Not selected
-							{/if}
-						</div>
+			<div class="flex w-full flex-col gap-5">
+				<div class="box w-full">
+					<div class="box-header">Date Selected</div>
+					<div class="box-content font-bold">
+						{#if value}
+							{dayjs(dayjs(value.toString()).add(8, 'h')).format('dddd, MMMM D')}
+						{:else}
+							Not selected
+						{/if}
 					</div>
-					<div class="box">
-						<div class="box-header">Time</div>
-						<div class="box-content">
-							<TimeSelector bind:selectedTime />
-						</div>
+				</div>
+				<div class="box">
+					<div class="box-header">Time</div>
+					<div class="box-content">
+						<TimeSelector bind:selectedTime />
 					</div>
-					<div class="box">
+				</div>
+				<!-- <div class="box">
 						<div class="box-header">Location</div>
 						<div class="box-content">
 							<Input bind:value={selectedLocation} type="text" placeholder="Ex: Library" class="" />
 						</div>
-					</div>
-					<button
-						on:click={() => {
-							createRecord();
-						}}
-						class="flex w-[48%] flex-1 flex-col place-items-center justify-evenly rounded-md bg-[#959CFF] p-4 px-6 text-xl font-bold text-white shadow-sm transition duration-300 ease-out hover:-translate-y-1 hover:bg-[#7f7fec] hover:shadow-lg"
-					>
-						Confirm Availability
-					</button>
-				</div>
+					</div> -->
+				<button
+					on:click={() => {
+						createRecord();
+					}}
+					class="flex w-full items-center justify-center gap-3 rounded-md bg-[#959CFF] p-4 px-6 text-xl text-white shadow-md transition duration-300 ease-out hover:-translate-y-1 hover:bg-[#7f7fec] hover:shadow-lg"
+				>
+					<Check />
+					Confirm Availability
+				</button>
 			</div>
 		</div>
 	</div>
@@ -169,7 +170,7 @@
 
 <style>
 	.box {
-		@apply flex w-[48%] min-w-[48%] flex-1 flex-col rounded-md border shadow-sm;
+		@apply flex-1 flex-col rounded-md border shadow-sm;
 	}
 
 	.box-header {

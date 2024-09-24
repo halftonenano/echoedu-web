@@ -6,11 +6,23 @@
 	import CancelSessionButton from './CancelSessionButton.svelte';
 	import { currentSession } from './currentSessionStore';
 	import NhsBadge from '../NhsBadge.svelte';
+	import { browser } from '$app/environment';
+	import { quintOut } from 'svelte/easing';
+
+	let phonenumber = '';
+	let loadingPhoneNumber = false;
+
+	$: if ($currentSession?.expand?.tutor.user && !loadingPhoneNumber && browser) {
+		loadingPhoneNumber = true;
+		fetch(`/api/phone/${$currentSession?.expand?.tutor.user}`)
+			.then((r) => r.json())
+			.then((data) => (phonenumber = String(data.number)));
+	}
 </script>
 
 {#if $currentSession}
 	<div
-		class="mb-5 rounded-lg border-t border bg-white p-5 shadow-md md:shadow-lg"
+		class="mb-5 rounded-lg border border-t bg-white p-5 shadow-md md:shadow-lg"
 		transition:fly={{ x: 200, duration: 400 }}
 	>
 		<div class="flex gap-3">
@@ -18,13 +30,27 @@
 				<div class="font-bold">Your Session</div>
 				<hr class="my-3 w-full" />
 			</div>
-			<CancelSessionButton sessionid={$currentSession.id} />
+			<CancelSessionButton sessionid={$currentSession.id} onFinish={() => {}} />
 		</div>
 
 		<div class="mb-4">
-			<h2 class="text-xl font-bold">
-				{$currentSession.expand?.tutor.name}
-			</h2>
+			<div class="flex gap-3 text-xl">
+				<h2 class="font-bold">
+					{$currentSession.expand?.tutor.name}
+				</h2>
+				{#if phonenumber !== ''}
+					<div transition:fly={{ x: 100, duration: 250, opacity: 0, easing: quintOut, delay: 500 }}>
+						{#if phonenumber.length === 10}
+							({phonenumber.substring(0, 3)}){' '}{phonenumber.substring(
+								3,
+								6
+							)}-{phonenumber.substring(6, 10)}
+						{:else}
+							{phonenumber}
+						{/if}
+					</div>
+				{/if}
+			</div>
 
 			{#if $currentSession.expand?.tutor.expand?.classes}
 				<div class="mt-2 flex flex-wrap gap-3">

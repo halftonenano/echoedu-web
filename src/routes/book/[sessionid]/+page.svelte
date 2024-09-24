@@ -4,6 +4,7 @@
 	import { refreshCurrentSession } from '$lib/components/booking/sessions/currentSessionStore.js';
 	import TeacherBadge from '$lib/components/booking/teachers/TeacherBadge.svelte';
 	import { Button } from '$lib/components/ui/button';
+	import { Input } from '$lib/components/ui/input';
 	import * as Table from '$lib/components/ui/table';
 	import { sleep } from '$lib/utils.js';
 	import { confetti } from '@neoconfetti/svelte';
@@ -16,6 +17,7 @@
 
 	let processing = false;
 	let success = false;
+	let location = '';
 </script>
 
 <svelte:head>
@@ -90,7 +92,7 @@
 								{dayjs(session.datetime).format('h:mm a')}
 							</Table.Cell>
 							<Table.Cell>
-								{session.location}
+								<Input placeholder="Enter a meeting location (required)" bind:value={location} />
 							</Table.Cell>
 						</Table.Row>
 					</Table.Body>
@@ -100,10 +102,16 @@
 			<Button
 				class="flex w-full items-center justify-center gap-2"
 				on:click={async () => {
+					if (location === '') {
+						return toast.error('Please enter a meeting location');
+					}
 					processing = true;
 
 					const response = await (
-						await fetch(`/api/sessions/${session.id}/book`, { method: 'POST' })
+						await fetch(`/api/sessions/${session.id}/book`, {
+							method: 'POST',
+							body: JSON.stringify({ location })
+						})
 					).json();
 
 					processing = false;
