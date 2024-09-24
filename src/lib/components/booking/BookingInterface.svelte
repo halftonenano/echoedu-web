@@ -146,7 +146,7 @@
 										<div class="text-md w-36 text-right font-bold">
 											{#if hour <= 11}
 												Tutorial
-											{:else if hour <= 15}
+											{:else if hour <= 14}
 												During 7th
 											{:else}
 												After 7th
