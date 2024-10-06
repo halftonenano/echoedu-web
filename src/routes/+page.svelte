@@ -91,13 +91,13 @@
 		supporting our peers through free, one-time English tutoring sessions primarily focused on essay
 		revisions and larger projects. While other tutoring organizations may seem nearly identical or
 		even superior, we employ a relatively unique approach to tutoring that cannot be replicated:
-		self selection. Students are able to match with tutors who have had their teacher previously,
-		ensuring tailored support which echos the expectations of their teacher. In a world where
+		self-selection. Students are able to match with tutors who have had their teacher previously,
+		ensuring tailored support that echoes the expectations of their teacher. In a world where
 		writing is everything but objective, it is imperative to understand the criteria that your
 		teacher has provided. Unfortunately, this cannot be achieved through a simple rubric. Rather, it
 		must be learned through direct and extensive experience with the teacher; thus, to no fault of
 		their own, the average tutor will be unable to assist a student to the best of their abilities
-		in writing. Here at EchoEDU, we have the tools which empower students to excel as writers,
+		in writing. Here at EchoEDU, we have the tools that empower students to excel as writers,
 		allowing students to thrive academically while collaborating with their peers.
 	</p>
 </div>
