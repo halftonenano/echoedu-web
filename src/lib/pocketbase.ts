@@ -10,7 +10,7 @@ export const pb = new PocketBase(PUBLIC_API_URL) as TypedPocketBase;
 
 export const user = writable<AuthModel | null>(pb.authStore.model);
 
-if (browser && !pb.authStore.isValid) {
+if (browser && pb.authStore.model && !pb.authStore.isValid) {
 	signOut();
 }
 try {
