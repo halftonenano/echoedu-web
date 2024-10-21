@@ -5,6 +5,11 @@ import { NotificationsReasonOptions } from '$lib/types/db.js';
 import type { ExpandedSession } from '$lib/types/types.js';
 import { json } from '@sveltejs/kit';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export async function POST({ params: { sessionid }, request }) {
 	pb.authStore.loadFromCookie(request.headers.get('Cookie') || '');
@@ -38,6 +43,7 @@ export async function POST({ params: { sessionid }, request }) {
 				{
 					reason: NotificationsReasonOptions['reminder/morning'],
 					datetime: dayjs(session.datetime)
+						.tz('America/Los_Angeles')
 						.set('hour', 8)
 						.set('minute', 30)
 						.set('second', 0)
@@ -53,6 +59,7 @@ export async function POST({ params: { sessionid }, request }) {
 				{
 					reason: NotificationsReasonOptions['reminder/morning'],
 					datetime: dayjs(session.datetime)
+						.tz('America/Los_Angeles')
 						.set('hour', 8)
 						.set('minute', 30)
 						.set('second', 0)
