@@ -11,12 +11,20 @@
 
 	onMount(async () => {
 		storeScroll();
+		checkIsTutor();
+	});
 
+	async function checkIsTutor() {
 		try {
 			await pb.collection('tutors').getFirstListItem(`user="${pb.authStore.model?.id}"`);
 			isTutor = true;
 		} catch {}
-	});
+	}
+
+	$: {
+		user;
+		checkIsTutor();
+	}
 
 	onNavigate(() => {
 		open = false;
