@@ -49,6 +49,8 @@
 			}
 
 			groupedSessions = groupedSessions;
+		} else {
+			groupedSessions = [];
 		}
 	}
 

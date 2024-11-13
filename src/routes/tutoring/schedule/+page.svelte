@@ -27,7 +27,7 @@
 		// console.log(selectedLocation)
 		let dateTime = dayjs(
 			// @ts-ignore
-			dayjs(value).add(7, 'h').format('YYYY-MM-DD') + ' ' + selectedTime + '.123Z'
+			dayjs(value).add(8, 'h').format('YYYY-MM-DD') + ' ' + selectedTime + '.123Z'
 		);
 
 		const tutorChad = await pb
