@@ -14,9 +14,10 @@
 	let value = today(getLocalTimeZone());
 
 	let selectedTime = '';
-	let selectedLocation = '';
 
 	async function createRecord() {
+		if (selectedTime === '') return toast.error('Please fill all fields out');
+
 		if (selectedTime == 'During Tutorial') {
 			selectedTime = '17:05:00';
 		} else if (selectedTime == 'During 7th Period') {
