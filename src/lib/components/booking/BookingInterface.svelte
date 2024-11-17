@@ -119,7 +119,7 @@
 						{/if}
 
 						{#each day.sessions as session (session.id)}
-							{@const hour = dayjs(session.datetime).hour()}
+							{@const minute = dayjs(session.datetime).minute()}
 							<li
 								class="flex items-center justify-between gap-3 px-5 py-2 text-sm transition-colors hover:bg-zinc-100 md:pl-14 md:text-base"
 							>
@@ -144,9 +144,9 @@
 											{/if}
 										</div>
 										<div class="text-md w-36 text-right font-bold">
-											{#if hour <= 11}
+											{#if minute === 5}
 												Tutorial
-											{:else if hour <= 14}
+											{:else if minute === 25}
 												During 7th
 											{:else}
 												After 7th
